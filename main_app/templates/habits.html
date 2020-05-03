@@ -1,20 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Habits List</h1>
-
-{% for habit in habits %}
-  <div class="card">
-    <div class="card-content">
-      <span class="card-title">Name: {{ habit.name }}</span>
-      <p>Description: {{ habit.description }}</p>
-      {% if habit.good == True %}
-        <p>Good Habit</p>
-      {% else %}
-        <p>Bad Habit</p>
-      {% endif %}
-    </div>
+<div class="row">
+  <div class="col-sm-7">
+    Calendar Placeholder
   </div>
-{% endfor %}
+  <div class="col-sm-5">
+    <h1>Habits List</h1>
+    {% for habit in habits %}
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Name: {{ habit.name }}</span>
+          <p>Description: {{ habit.description }}</p>
+          {% if habit.good == True %}
+            <p>Good Habit</p>
+          {% else %}
+            <p>Bad Habit</p>
+          {% endif %}
+          {% if request.user == habit.user %}
+              <a href="{% url 'habit_update' habit.id%}"><button type="button" class="btn btn-info float-right" style="margin:.5rem">Update Habit</button></a>
+              <a href="{% url 'habit_delete' habit.id%}"><button type="button" class="btn btn-danger float-right" style="margin:.5rem">Delete Habit</button></a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
 
 {% endblock %}

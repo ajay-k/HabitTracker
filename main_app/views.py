@@ -32,7 +32,7 @@ def habits_index(request):
   return render(request, 'habits.html', {'habits': habits})
 
 @login_required
-def add_habit(request):
+def habit_add(request):
   if request.method == 'POST':
     form = HabitForm(request.POST)
     if form.is_valid():
@@ -44,6 +44,26 @@ def add_habit(request):
     form = HabitForm()
   context = { 'form': form}
   return render(request, 'habits/habit_form.html', context)
+
+def habit_update(request, habit_id):
+  habit = Habit.objects.get(id=habit_id)
+  if request.method == 'POST':
+    form = HabitForm(request.POST, instance=habit)
+    if form.is_valid():
+      habit = form.save()
+      return redirect('index')
+  else: 
+    form = HabitForm(instance=habit)
+  context = { 'form': form }
+  return render(request, 'habits/habit_form.html', { 'form': form })
+
+def habit_delete(request, habit_id):
+  habit = Habit.objects.get(id=habit_id)
+  Habit.objects.get(id=habit_id).delete()
+  return redirect('index')
+
+
+
 
 def signup(request):
   error_message = ''
