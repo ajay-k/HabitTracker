@@ -121,4 +121,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/habits/'
-LOGOUT_REDIRECT_URL = '/habits/'
+LOGOUT_REDIRECT_URL = '/'
