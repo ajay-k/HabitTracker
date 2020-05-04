@@ -1,8 +1,8 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
-from .models import Habit
-from .forms import HabitForm
+from .models import Habit, HabitLogger
+from .forms import HabitForm, HabitLoggerForm
 
 #User imports
 from django.contrib.auth import login
@@ -33,12 +33,16 @@ def habits_index(request):
 
 @login_required
 def habit_add(request):
+  habit_logger = HabitLogger()
   if request.method == 'POST':
     form = HabitForm(request.POST)
     if form.is_valid():
       habit = form.save(commit=False)
       habit.user = request.user
       habit.save()
+      habit_logger.habit = habit
+      habit_logger.user = request.user
+      habit_logger.save()
       return redirect('index')
   else:
     form = HabitForm()

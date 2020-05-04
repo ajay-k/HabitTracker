@@ -3,8 +3,28 @@
 
 <div class="row">
   <div class="col-sm-7">
-    Calendar Placeholder
-  </div>
+    <h1>Custom <span>Date</span>Picker</h1>
+    <div class="date-picker">
+      <div class="selected-date">30 / 07 / 2019</div>
+
+      <div class="dates">
+        <div class="month">
+          <div class="arrows prev-mth">&lt</div>
+          <div class="mth">July 2019</div>
+          <div class="arrows next-mth">&gt</div>
+        </div>
+        <div class="days">
+          <div class="day">1</div>
+          <div class="day">2</div>
+          <div class="day">3</div>
+          <div class="day">4</div>
+          <div class="day">5</div>
+          <div class="day">6</div>
+          <div class="day">7</div>
+        </div>
+      </div>
+    </div>
+  </div> 
   <div class="col-sm-5">
     <h1>Habits List <a href="{% url 'habit_add' %}"><button type="button" class="btn btn-success float-right" style="margin:.5rem">Add Habit</button></a> </h1>
 
@@ -13,7 +33,7 @@
         <div class="card-content">
           <span class="card-title">Name: {{ habit.name }}</span>
           <p>Description: {{ habit.description }}</p>
-          {% if habit.good == True %}
+          {% if habit.good == True %} 
             <p>Good Habit</p>
           {% else %}
             <p>Bad Habit</p>
@@ -29,5 +49,34 @@
 </div>
 
 
+<script type="text/javascript">
+	$(document).ready(function() {
+    const date_picker_element = document.querySelector('.date-picker');
+    const selected_date_element = document.querySelector('.date-picker .selected-date');
+    const dates_element = document.querySelector('.date-picker .dates');
+
+    //EVENT LISTENERS
+    date_picker_element.addEventListener('click', toggleDatePicker);
+
+    //FUNCTIONS
+    function toggleDatePicker(e) {
+      if(!checkEventPathForClass(e.composedPath(), 'dates')){
+        dates_element.classList.toggle('active')
+      }
+    }
+    
+
+    //HELPER FUNCTIONS 
+    function checkEventPathForClass(path, selector) {
+      for(let i = 0; i < path.length ; i++){
+        if(path[i].classList && path[i].classList.contains(selector)){
+          return true;
+        }
+      }
+      return false;
+    }
+
+	});
+</script>
 
 {% endblock %}
