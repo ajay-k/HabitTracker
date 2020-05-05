@@ -8,8 +8,11 @@ from .forms import HabitForm, HabitLoggerForm
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+
 from datetime import datetime
 from datetime import date
+from django.http import JsonResponse
+
 
 
 
@@ -30,14 +33,40 @@ def home(request):
   return render(request, 'home.html')
 
 @login_required
-def habits_index(request, month=None, day=None, year=None):
-  print("Incoming Data: ")
-  print(month)
-  print(day)
-  print(year)
-  if request.method == 'GET':
-    habit_logger_collection = HabitLogger.objects.filter(date__month=month, date__day=day, date__year= year)
+def habits_index(request, selMonth=None, selDay=None, selYear=None):
+  print(selMonth)
+  print(selDay)
+  print(selYear)
+  # print("Incoming Data: ")
+  # print(month)
+  # print(day)
+  # print(year)
+  dt = datetime.today()
+  if  request.is_ajax():
+    selMonth = request.GET.get('selMonth')
+    selDay = request.GET.get('selDay')
+    selYear = request.GET.get('selYear')
+    # habit_logger_collection = HabitLogger.objects.filter(date__month=selMonth, date__day=selDay, date__year= selYear)
+    data = list(HabitLogger.objects.filter(date__month=selMonth, date__day=selDay, date__year= selYear).values())  # wrap in list(), because QuerySet is not JSON serializable
+    # print(data)
+    print("---------------")
+    myData = []
+    for item in data:
+      print(item['habit_id'])
+      myHab = list(Habit.objects.filter(id=item['habit_id']).values())
+      myData.append(myHab)
+      # print(myHab)
+    print(list(myData))
+    return JsonResponse(list(myData), safe=False)  # or JsonResponse({'data': data})
+
+  else:
+    selMonth = datetime.now().month
+    selDay = datetime.now().day
+    selYear = datetime.now().year
+
+  habit_logger_collection = HabitLogger.objects.filter(date__month=selMonth, date__day=selDay, date__year= selYear)
   print(habit_logger_collection)
+
   return render(request, 'habits.html', {'habit_logger_collection': habit_logger_collection})
 
 @login_required
