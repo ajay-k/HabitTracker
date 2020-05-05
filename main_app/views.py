@@ -101,6 +101,14 @@ def habit_update(request, habit_id):
   return render(request, 'habits/habit_form.html', { 'form': form })
 
 def habit_delete(request, habit_id):
+  print("-----Yo------------")
+  url = request.get_full_path() 
+  urlSplit = url.split('/')
+  print(urlSplit)
+  habit_id = urlSplit[-1]
+  print(habit_id)
+  print('-------dfdds----')
+
   habit = Habit.objects.get(id=habit_id)
   Habit.objects.get(id=habit_id).delete()
   return redirect('index')

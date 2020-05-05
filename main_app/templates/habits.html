@@ -54,6 +54,7 @@
     mth_element.textContent = months[month] + ' ' + year;
 
     selected_date_element.textContent = formatDate(date);
+    grabHabits(selectedMonth+1, selectedDay, selectedYear);
     selected_date_element.dataset.value = selectedDate;
 
 
@@ -167,13 +168,21 @@
       data: {
         'selMonth': month,
         'selDay' : day,
-        'selYear': year
+        'selYear': year,
       },
 			success: (response) => {
         console.log(response)
         console.log( selected_date_element.dataset.value );
         for(let i = 0; i < response.length; i++){
-          habitListElement.append(`${response[i][0].name} `)
+          habitListElement.innerHTML = habitListElement.innerHTML + `
+        <div class="card">
+        <div class="card-content">
+          <span class="card-title">Name: ${response[i][0].name} </span>
+          <p>Description: ${response[i][0].description}</p>
+          <a href="/habit/delete/${response[i][0].id}"><button type="button" class="btn btn-danger float-right" style="margin:.5rem">Delete Habit</button></a>
+        </div>
+        </div>
+      `
         }
         
 
