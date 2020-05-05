@@ -8,6 +8,9 @@ from .forms import HabitForm, HabitLoggerForm
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
+from datetime import date
+
 
 
 # class Habit:  # Note that parens are optional if not inheriting from another class
@@ -27,9 +30,15 @@ def home(request):
   return render(request, 'home.html')
 
 @login_required
-def habits_index(request):
-  habits = Habit.objects.filter(user=request.user)
-  return render(request, 'habits.html', {'habits': habits})
+def habits_index(request, month=None, day=None, year=None):
+  print("Incoming Data: ")
+  print(month)
+  print(day)
+  print(year)
+  if request.method == 'GET':
+    habit_logger_collection = HabitLogger.objects.filter(date__month=month, date__day=day, date__year= year)
+  print(habit_logger_collection)
+  return render(request, 'habits.html', {'habit_logger_collection': habit_logger_collection})
 
 @login_required
 def habit_add(request):
@@ -42,6 +51,7 @@ def habit_add(request):
       habit.save()
       habit_logger.habit = habit
       habit_logger.user = request.user
+      habit_logger.date = datetime.date
       habit_logger.save()
       return redirect('index')
   else:

@@ -19,21 +19,21 @@
     </div>
   </div> 
   <div class="col-sm-5">
-    <h1>Habits List <a href="{% url 'habit_add' %}"><button type="button" class="btn btn-success float-right" style="margin:.5rem">Add Habit</button></a> </h1>
+    {% comment %} <h1>Habits List <a href="{% url 'habit_add' %}"><button type="button" class="btn btn-success float-right" style="margin:.5rem">Add Habit</button></a> </h1> {% endcomment %}
 
-    {% for habit in habits %}
+    {% for habit_logger in habit_logger_collection %}
       <div class="card">
         <div class="card-content">
-          <span class="card-title">Name: {{ habit.name }}</span>
-          <p>Description: {{ habit.description }}</p>
-          {% if habit.good == True %} 
+          <span class="card-title">Name: {{ habit_logger.habit.name }}</span>
+          <p>Description: {{ habit_logger.habit.description }}</p>
+          {% if habit_logger.habit.good == True %} 
             <p>Good Habit</p>
           {% else %}
             <p>Bad Habit</p>
           {% endif %}
-          {% if request.user == habit.user %}
-              <a href="{% url 'habit_update' habit.id%}"><button type="button" class="btn btn-info float-right" style="margin:.5rem">Update Habit</button></a>
-              <a href="{% url 'habit_delete' habit.id%}"><button type="button" class="btn btn-danger float-right" style="margin:.5rem">Delete Habit</button></a>
+          {% if request.user == habit_logger.habit.user %}
+              <a href="{% url 'habit_update' habit_logger.habit.id%}"><button type="button" class="btn btn-info float-right" style="margin:.5rem">Update Habit</button></a>
+              <a href="{% url 'habit_delete' habit_logger.habit.id%}"><button type="button" class="btn btn-danger float-right" style="margin:.5rem">Delete Habit</button></a>
           {% endif %}
         </div>
       </div>
@@ -135,8 +135,8 @@
           console.log(selectedDate)
           selected_date_element.textContent = formatDate(selectedDate);
           selected_date_element.dataset.value = selectedDate;
-
           populateDates();
+          grabHabits(selectedMonth, selectedDay, selectedYear);
         })
 
         days_element.appendChild(day_element);
@@ -169,6 +169,22 @@
       let year = d.getFullYear();
 
       return month + '/' + day +  '/' + year;
+    }
+
+    function grabHabits(month, day, year) {
+      console.log("MMAMAM", month)
+      $.ajax({
+			method: "GET",
+			url: `/habits/${month}/${day}/${year}`,
+			success: (response) => {
+        console.log( selected_date_element.dataset.value )
+        window.location = `/habits/` + (month+1) + '/' + day + '/' + year;
+
+			},
+			error: (err) => {
+			console.log(err);
+			}
+			})
     }
 
 	});

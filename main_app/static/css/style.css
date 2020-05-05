@@ -10,7 +10,7 @@
  .date-picker {
    position: relative;
    width: 100%;
-   max-width: 320px;
+   max-width: 500px;
    height: 60px;
    background-color: #ffffff;
    margin: 30px auto;
@@ -37,7 +37,7 @@
  }
 
  .date-picker .dates {
-   display: none;
+   display: block;
    position: absolute;
    top: 100%;
    left: 0;
@@ -47,7 +47,7 @@
  }
 
  .date-picker .dates.active {
-   display: block;
+   display: none;
  }
 
  .date-picker .dates .month {
@@ -90,4 +90,9 @@
 
 .date-picker .dates .days .day.selected {
   background-color: #00CA85;
+}
+
+footer {
+  padding-top: 0;
+  text-align: right;
 }

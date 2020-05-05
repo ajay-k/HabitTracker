@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 
@@ -15,8 +16,8 @@ class Habit(models.Model):
 class HabitLogger(models.Model):
   habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
-  date = models.DateField()
-  completed = models.BooleanField()
+  date = models.DateField(auto_now_add=True)
+  completed = models.BooleanField( null=True, blank=True )
 
   def __str__(self):
     return self.habit.name
