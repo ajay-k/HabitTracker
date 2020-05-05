@@ -1,6 +1,11 @@
  body {
    background-color: #FFCE00;
  }
+
+ #calendar-title{
+   display:flex;
+   justify-content: center;
+ }
   
  .date-picker {
    position: relative;
