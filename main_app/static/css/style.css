@@ -93,6 +93,22 @@
 }
 
 footer {
-  padding-top: 0;
-  text-align: right;
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem; 
+}
+
+.habitsList{
+  margin: 30px auto;
+}
+
+#habitTitle{
+  text-align: center;
+}
+
+.card{
+  margin: 10px;
+  padding: 10px;
 }
