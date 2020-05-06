@@ -46,9 +46,12 @@ def habits_index(request, selMonth=None, selDay=None, selYear=None):
     selMonth = request.GET.get('selMonth')
     selDay = request.GET.get('selDay')
     selYear = request.GET.get('selYear')
+
+    current_user = request.user
+    print("Current USER ID: " + str(current_user.id))
     # habit_logger_collection = HabitLogger.objects.filter(date__month=selMonth, date__day=selDay, date__year= selYear)
-    data = list(HabitLogger.objects.filter(date__month=selMonth, date__day=selDay, date__year= selYear).values())  # wrap in list(), because QuerySet is not JSON serializable
-    # print(data)
+    data = list(HabitLogger.objects.filter(date__month=selMonth, date__day=selDay, date__year= selYear).values().filter(user_id=current_user.id))  # wrap in list(), because QuerySet is not JSON serializable
+    print(data)
     print("---------------")
     myData = []
     for item in data:

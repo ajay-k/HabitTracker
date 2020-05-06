@@ -201,8 +201,9 @@
                   'habit_id': response[i][0].id,
                 },
 
-                success: (response) => {
+                success: (res) => {
                   alert("Deleted!")
+                  console.log($(`.habitCard-${response[i][0].id}`))
                   $(`.habitCard-${response[i][0].id}`).remove();
 
 
