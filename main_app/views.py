@@ -100,14 +100,18 @@ def habit_update(request, habit_id):
   context = { 'form': form }
   return render(request, 'habits/habit_form.html', { 'form': form })
 
-def habit_delete(request, habit_id):
-  print("-----Yo------------")
-  url = request.get_full_path() 
-  urlSplit = url.split('/')
-  print(urlSplit)
-  habit_id = urlSplit[-1]
+def habit_delete(request, habit_id=None):
+  if  request.is_ajax():
+    print("AJAX Incoming")
+    habit_id = request.GET.get('habit_id')
+  # print("-----Yo------------")
+  # url = request.get_full_path() 
+  # urlSplit = url.split('/')
+  # print(urlSplit)
+  # habit_id = urlSplit[-1]
   print(habit_id)
   print('-------dfdds----')
+
 
   habit = Habit.objects.get(id=habit_id)
   Habit.objects.get(id=habit_id).delete()

@@ -160,6 +160,7 @@
 
     function grabHabits(month, day, year) {
       let habitUrl = '{% url "index"  %}'
+      let habitDelete = '{% url "habit_delete"  %}'
       let habitListElement =  document.querySelector('.habitsList');
       $('.habitsList').empty();
       $.ajax({
@@ -175,15 +176,46 @@
         console.log( selected_date_element.dataset.value );
         for(let i = 0; i < response.length; i++){
           habitListElement.innerHTML = habitListElement.innerHTML + `
-        <div class="card">
-        <div class="card-content">
-          <span class="card-title">Name: ${response[i][0].name} </span>
-          <p>Description: ${response[i][0].description}</p>
-          <a href="/habit/delete/${response[i][0].id}"><button type="button" class="btn btn-danger float-right" style="margin:.5rem">Delete Habit</button></a>
-        </div>
-        </div>
-      `
+            <div class="card habitCard-${response[i][0].id}" id="${response[i][0].id}">
+            <div class="card-content">
+              <span class="card-title">Name: ${response[i][0].name} </span>
+              <p>Description: ${response[i][0].description}</p>
+              <button type="button" class="btn btn-danger float-right dltBtn-${response[i][0].id}" style="margin:.5rem">Delete Habit</button>
+            </div>
+            </div>
+          `;
+
+          console.log($(`#dltBtn-${response[i][0].name}-${response[i][0].id}`))
+          $(`.dltBtn-${response[i][0].id}`).on("click", (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log("I'm here")
+              $.ajax({
+                method: "GET",
+
+                url: habitDelete,
+                
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+
+                data: {
+                  'habit_id': response[i][0].id,
+                },
+
+                success: (response) => {
+                  alert("Deleted!")
+                  $(`.habitCard-${response[i][0].id}`).remove();
+
+
+                },
+
+                error: (err) => {
+                  console.log(err);
+                },
+              });
+          });
         }
+
+    
         
 
 			},
