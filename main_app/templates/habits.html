@@ -161,6 +161,7 @@
     function grabHabits(month, day, year) {
       let habitUrl = '{% url "index"  %}'
       let habitDelete = '{% url "habit_delete"  %}'
+      let habitComplete = '{% url "habit_complete"  %}'
       let habitListElement =  document.querySelector('.habitsList');
       $('.habitsList').empty();
       $.ajax({
@@ -176,17 +177,17 @@
         console.log( selected_date_element.dataset.value );
         for(let i = 0; i < response.length; i++){
           habitListElement.innerHTML = habitListElement.innerHTML + `
-            <div class="card habitCard-${response[i][0].id}" id="${response[i][0].id}">
+            <div class="card habitCard-${response[i].id}" id="${response[i].id}">
             <div class="card-content">
-              <span class="card-title">Name: ${response[i][0].name} </span>
-              <p>Description: ${response[i][0].description}</p>
-              <button type="button" class="btn btn-danger float-right dltBtn-${response[i][0].id}" style="margin:.5rem">Delete Habit</button>
+              <span class="card-title">Name: ${response[i].name} </span>
+              <p>Description: ${response[i].description}</p>
+              <button type="button" class="btn btn-danger float-right dltBtn-${response[i].id}" style="margin:.5rem">Delete Habit</button>
+              <button type="button" class="btn btn-info float-right completeBtn-${response[i].id}" style="margin:.5rem">Done </button>
             </div>
             </div>
           `;
 
-          console.log($(`#dltBtn-${response[i][0].name}-${response[i][0].id}`))
-          $(`.dltBtn-${response[i][0].id}`).on("click", (e) => {
+          $(`.dltBtn-${response[i].id}`).on("click", (e) => {
               e.preventDefault();
               e.stopPropagation();
               console.log("I'm here")
@@ -198,13 +199,13 @@
                 headers: { "X-CSRFToken": '{{csrf_token}}' },
 
                 data: {
-                  'habit_id': response[i][0].id,
+                  'habit_id': response[i].id,
                 },
 
                 success: (res) => {
                   alert("Deleted!")
-                  console.log($(`.habitCard-${response[i][0].id}`))
-                  $(`.habitCard-${response[i][0].id}`).remove();
+                  console.log($(`.habitCard-${response[i].id}`))
+                  $(`.habitCard-${response[i].id}`).remove();
 
 
                 },
@@ -213,9 +214,35 @@
                   console.log(err);
                 },
               });
-          });
-        }
+          }); 
 
+        $(`.completeBtn-${response[i].id}`).on("click", (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log("I'm in Update")
+              $.ajax({
+                method: "GET",
+
+                url: habitComplete,
+                
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+
+                data: {
+                  'habit_id': response[i].id,
+                },
+
+                success: (updateRes) => {
+                  alert("Updated!")
+                  console.log($(`.habitCard-${response[i].id}`))
+
+                },
+
+                error: (err) => {
+                  console.log(err);
+                },
+              });
+          }); 
+        }
     
         
 

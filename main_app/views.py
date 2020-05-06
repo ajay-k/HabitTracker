@@ -42,25 +42,28 @@ def habits_index(request, selMonth=None, selDay=None, selYear=None):
   # print(day)
   # print(year)
   dt = datetime.today()
-  if  request.is_ajax():
-    selMonth = request.GET.get('selMonth')
-    selDay = request.GET.get('selDay')
-    selYear = request.GET.get('selYear')
+  if request.is_ajax():
+    # selMonth = request.GET.get('selMonth')
+    # selDay = request.GET.get('selDay')
+    # selYear = request.GET.get('selYear')
 
     current_user = request.user
-    print("Current USER ID: " + str(current_user.id))
-    # habit_logger_collection = HabitLogger.objects.filter(date__month=selMonth, date__day=selDay, date__year= selYear)
-    data = list(HabitLogger.objects.filter(date__month=selMonth, date__day=selDay, date__year= selYear).values().filter(user_id=current_user.id))  # wrap in list(), because QuerySet is not JSON serializable
-    print(data)
-    print("---------------")
-    myData = []
-    for item in data:
-      print(item['habit_id'])
-      myHab = list(Habit.objects.filter(id=item['habit_id']).values())
-      myData.append(myHab)
-      # print(myHab)
-    print(list(myData))
-    return JsonResponse(list(myData), safe=False)  # or JsonResponse({'data': data})
+    habits = Habit.objects.all()
+    habits = list(Habit.objects.filter(user_id=request.user).values())
+    print(habits)
+    # print("Current USER ID: " + str(current_user.id))
+    # # habit_logger_collection = HabitLogger.objects.filter(date__month=selMonth, date__day=selDay, date__year= selYear)
+    # data = list(HabitLogger.objects.filter(date__month=selMonth, date__day=selDay, date__year= selYear).values().filter(user_id=current_user.id))  # wrap in list(), because QuerySet is not JSON serializable
+    # print(data)
+    # print("---------------")
+    # myData = []
+    # for item in data:
+    #   print(item['habit_id'])
+    #   myHab = list(Habit.objects.filter(id=item['habit_id']).values())
+    #   myData.append(myHab)
+    #   # print(myHab)
+    # print(list(myData))
+    return JsonResponse(habits, safe=False)  # or JsonResponse({'data': data})
 
   else:
     selMonth = datetime.now().month
@@ -119,6 +122,21 @@ def habit_delete(request, habit_id=None):
   habit = Habit.objects.get(id=habit_id)
   Habit.objects.get(id=habit_id).delete()
   return redirect('index')
+
+def habit_complete(request, habit_id=None):
+  if request.is_ajax():
+    print("AJAX Incoming")
+    habit_id = request.GET.get('habit_id')
+  # print("-----Yo------------")
+  # url = request.get_full_path() 
+  # urlSplit = url.split('/')
+  # print(urlSplit)
+  # habit_id = urlSplit[-1]
+  print(habit_id)
+  print('-------Udate----')
+
+  return redirect('index')
+
 
 
 
