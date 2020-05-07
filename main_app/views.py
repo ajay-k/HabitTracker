@@ -63,7 +63,20 @@ def habits_index(request, selMonth=None, selDay=None, selYear=None):
     #   myData.append(myHab)
     #   # print(myHab)
     # print(list(myData))
-    return JsonResponse(habits, safe=False)  # or JsonResponse({'data': data})
+    print("************************")
+    allDates = HabitLogger.objects.values_list('date', flat=True)
+    print("DATES:")
+    print(allDates)
+    removedDups = list(set(allDates)) 
+    completedDates = []
+    print("//////////////////////")
+    for date in removedDups:
+      print(date)
+      if(check_complete(request=request, formatedDate=date)==True):
+        completedDates.append(date)
+    print("COMPLETED DATES ARRAY: ")
+    print(completedDates)
+    return JsonResponse({"habits": habits, "completedDates": completedDates}, safe=False)  # or JsonResponse({'data': data})
 
   else:
     selMonth = datetime.now().month
@@ -132,12 +145,15 @@ def habit_complete(request, habit_id=None):
     selDay = request.GET.get('selDay')
     selYear = request.GET.get('selYear')
 
+    elemDate = selYear + '-' + selMonth + '-' + selDay
+
     if(int(selMonth) < 10 ):
       selMonth = '0' + selMonth
     print(selMonth)
 
     if(int(selDay) < 10 ):
       selDay = '0' + selDay
+    
     
     formatedDate = selYear + '-' + selMonth + '-' + selDay
 
@@ -147,7 +163,6 @@ def habit_complete(request, habit_id=None):
     # habit = Habit()
     # print(habit)
     # habit = Habit.objects.filter(id=habit_id)
-    check_complete(request=request, formatedDate=formatedDate)
     print("Habit Incoming!")
     if(not(HabitLogger.objects.filter(habit_id=habit_id).filter(date=formatedDate).exists())):
       # if(not(HabitLogger.objects.filter(date=formatedDate).exists())):
@@ -158,7 +173,9 @@ def habit_complete(request, habit_id=None):
         habit_logger.user = request.user
         habit_logger.date = formatedDate
         habit_logger.save()
-        return JsonResponse("200", safe=False)
+        if(check_complete(request=request, formatedDate=elemDate)==True):
+          return JsonResponse({"status": "204", "formatedDate": formatedDate }, safe=False)
+        return JsonResponse({"status": "200", "formatedDate": formatedDate }, safe=False)
 
     # print(habit)
     # habit = Habit.objects.filter(id=habit_id)
@@ -175,7 +192,7 @@ def habit_complete(request, habit_id=None):
   print(habit_id)
   print('-------Udate----')
 
-  return redirect('index')
+  return JsonResponse({"status": "400", "formatedDate": formatedDate }, safe=False)
 
 def check_complete(request, formatedDate):
     print("I'm in check_complete function")
@@ -183,7 +200,6 @@ def check_complete(request, formatedDate):
     selMonth = request.GET.get('selMonth')
     selDay = request.GET.get('selDay')
     selYear = request.GET.get('selYear')
-
     if(int(selMonth) < 10 ):
       selMonth = '0' + selMonth
     print(selMonth)
@@ -199,6 +215,11 @@ def check_complete(request, formatedDate):
     habitLogger_count = HabitLogger.objects.filter(user_id=request.user.id).filter(date=formatedDate).count()
     print("HabitLogger Count")
     print(habitLogger_count)
+
+    if(user_habits == habitLogger_count):
+      print("YES! EXACT")
+      return True
+    return False
 
 
 
