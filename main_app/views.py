@@ -84,10 +84,10 @@ def habit_add(request):
       habit = form.save(commit=False)
       habit.user = request.user
       habit.save()
-      habit_logger.habit = habit
-      habit_logger.user = request.user
-      habit_logger.date = datetime.date
-      habit_logger.save()
+      # habit_logger.habit = habit
+      # habit_logger.user = request.user
+      # habit_logger.date = datetime.date
+      # habit_logger.save()
       return redirect('index')
   else:
     form = HabitForm()
@@ -106,6 +106,7 @@ def habit_update(request, habit_id):
   context = { 'form': form }
   return render(request, 'habits/habit_form.html', { 'form': form })
 
+# TODO: Fix if statement
 def habit_delete(request, habit_id=None):
   if  request.is_ajax():
     print("AJAX Incoming")
@@ -127,6 +128,23 @@ def habit_complete(request, habit_id=None):
   if request.is_ajax():
     print("AJAX Incoming")
     habit_id = request.GET.get('habit_id')
+    habit_logger = HabitLogger()
+    # habit = Habit()
+    # print(habit)
+    # habit = Habit.objects.filter(id=habit_id)
+    print("Habit Incoming!")
+    # print(habit)
+    # habit = Habit.objects.filter(id=habit_id)
+    habit = Habit.objects.get(id=habit_id)
+    # habits = Habit()
+    # print(type(habit))
+    # print(type(habits))
+    # print(type(a))
+    habit_logger.habit = habit
+    habit_logger.user = request.user
+    habit_logger.date = datetime.date
+    habit_logger.save()
+
   # print("-----Yo------------")
   # url = request.get_full_path() 
   # urlSplit = url.split('/')
