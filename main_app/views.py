@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
 from .models import Habit, HabitLogger
-from .forms import HabitForm, HabitLoggerForm
+from .forms import HabitForm
 
 #User imports
 from django.contrib.auth import login
@@ -128,18 +128,37 @@ def habit_complete(request, habit_id=None):
   if request.is_ajax():
     print("AJAX Incoming")
     habit_id = request.GET.get('habit_id')
+    selMonth = request.GET.get('selMonth')
+    selDay = request.GET.get('selDay')
+    selYear = request.GET.get('selYear')
+
+    if(int(selMonth) < 10 ):
+      selMonth = '0' + selMonth
+    print(selMonth)
+
+    if(int(selDay) < 10 ):
+      selDay = '0' + selDay
+    
+    formatedDate = selYear + '-' + selMonth + '-' + selDay
+
+    print("DATE")
+    print(formatedDate)
+    print(HabitLogger.objects.filter(date=formatedDate).exists())
     # habit = Habit()
     # print(habit)
     # habit = Habit.objects.filter(id=habit_id)
+    check_complete(request=request, formatedDate=formatedDate)
     print("Habit Incoming!")
-    if(not(HabitLogger.objects.filter(habit_id=habit_id).exists())):
-      habit_logger = HabitLogger()
-      habit = Habit.objects.get(id=habit_id)
-      habit_logger.habit = habit
-      habit_logger.user = request.user
-      habit_logger.date = datetime.date
-      habit_logger.save()
-      return JsonResponse("200", safe=False)
+    if(not(HabitLogger.objects.filter(habit_id=habit_id).filter(date=formatedDate).exists())):
+      # if(not(HabitLogger.objects.filter(date=formatedDate).exists())):
+        print("I'm inside the if statement")
+        habit_logger = HabitLogger()
+        habit = Habit.objects.get(id=habit_id)
+        habit_logger.habit = habit
+        habit_logger.user = request.user
+        habit_logger.date = formatedDate
+        habit_logger.save()
+        return JsonResponse("200", safe=False)
 
     # print(habit)
     # habit = Habit.objects.filter(id=habit_id)
@@ -157,6 +176,29 @@ def habit_complete(request, habit_id=None):
   print('-------Udate----')
 
   return redirect('index')
+
+def check_complete(request, formatedDate):
+    print("I'm in check_complete function")
+    habit_id = request.GET.get('habit_id')
+    selMonth = request.GET.get('selMonth')
+    selDay = request.GET.get('selDay')
+    selYear = request.GET.get('selYear')
+
+    if(int(selMonth) < 10 ):
+      selMonth = '0' + selMonth
+    print(selMonth)
+
+    if(int(selDay) < 10 ):
+      selDay = '0' + selDay
+    
+    formatedDate = selYear + '-' + selMonth + '-' + selDay
+    user_habits = Habit.objects.filter(user_id=request.user.id).count()
+    print("User Habits Count:")
+    print(user_habits)
+
+    habitLogger_count = HabitLogger.objects.filter(user_id=request.user.id).filter(date=formatedDate).count()
+    print("HabitLogger Count")
+    print(habitLogger_count)
 
 
 

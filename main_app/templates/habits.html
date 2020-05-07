@@ -53,12 +53,10 @@
 
     mth_element.textContent = months[month] + ' ' + year;
 
-    selected_date_element.textContent = formatDate(date);
+    populateDates();
+        selected_date_element.textContent = formatDate(date);
     grabHabits(selectedMonth+1, selectedDay, selectedYear);
     selected_date_element.dataset.value = selectedDate;
-
-
-    populateDates();
 
 
 
@@ -106,6 +104,7 @@
         const day_element = document.createElement('div');
         day_element.classList.add('day');
         day_element.textContent = i + 1;
+        day_element.classList.add(`dayElement-${month+1}-${i+1}-${year}`);
 
         if(selectedDay == (i + 1) && selectedYear == year && selectedMonth == month){
           day_element.classList.add('selected');
@@ -163,6 +162,10 @@
       let habitDelete = '{% url "habit_delete"  %}'
       let habitComplete = '{% url "habit_complete"  %}'
       let habitListElement =  document.querySelector('.habitsList');
+      console.log("printing may20");
+      console.log($(`.dayElement-05-20-2020`));
+      $(`.dayElement-5-21-2020`).addClass('selected');
+      console.log(month + '-' + day + '-' + year)
       $('.habitsList').empty();
       $.ajax({
 			method: "GET",
@@ -205,7 +208,7 @@
           cardContent.appendChild(deleteBtn)
           let completeBtn = document.createElement('button')
           completeBtn.setAttribute('class', `btn btn-info float-right completeBtn-${response[i].id}`);
-          completeBtn.textContent = 'Update'
+          completeBtn.textContent = 'Completed'
           cardContent.appendChild(completeBtn)
 
 
@@ -254,17 +257,18 @@
 
                 data: {
                   'habit_id': response[i].id,
+                  'selMonth': month,
+                  'selDay' : day,
+                  'selYear': year,
                 },
 
                 success: (updateRes) => {
-                  alert("Updated!")
                   if(updateRes == "200"){
-                    alert("Done")
+                    alert("Updated")
                   }else{
                     alert("Error: This has already been marked as done")
                   }
 
-                  {% comment %} console.log($(`.habitCard-${response[i].id}`)) {% endcomment %}
 
                 },
 

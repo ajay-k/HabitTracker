@@ -16,8 +16,7 @@ class Habit(models.Model):
 class HabitLogger(models.Model):
   habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
-  date = models.DateField(auto_now_add=True)
-  completed = models.BooleanField( null=True, blank=True )
+  date = models.DateField()
 
   def __str__(self):
     return self.habit.name
