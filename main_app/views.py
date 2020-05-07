@@ -128,22 +128,25 @@ def habit_complete(request, habit_id=None):
   if request.is_ajax():
     print("AJAX Incoming")
     habit_id = request.GET.get('habit_id')
-    habit_logger = HabitLogger()
     # habit = Habit()
     # print(habit)
     # habit = Habit.objects.filter(id=habit_id)
     print("Habit Incoming!")
+    if(not(HabitLogger.objects.filter(habit_id=habit_id).exists())):
+      habit_logger = HabitLogger()
+      habit = Habit.objects.get(id=habit_id)
+      habit_logger.habit = habit
+      habit_logger.user = request.user
+      habit_logger.date = datetime.date
+      habit_logger.save()
+      return JsonResponse("200", safe=False)
+
     # print(habit)
     # habit = Habit.objects.filter(id=habit_id)
-    habit = Habit.objects.get(id=habit_id)
     # habits = Habit()
     # print(type(habit))
     # print(type(habits))
     # print(type(a))
-    habit_logger.habit = habit
-    habit_logger.user = request.user
-    habit_logger.date = datetime.date
-    habit_logger.save()
 
   # print("-----Yo------------")
   # url = request.get_full_path() 

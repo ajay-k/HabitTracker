@@ -176,7 +176,7 @@
         console.log(response)
         console.log( selected_date_element.dataset.value );
         for(let i = 0; i < response.length; i++){
-          habitListElement.innerHTML = habitListElement.innerHTML + `
+          {% comment %} habitListElement.innerHTML = habitListElement.innerHTML + `
             <div class="card habitCard-${response[i].id}" id="${response[i].id}">
             <div class="card-content">
               <span class="card-title">Name: ${response[i].name} </span>
@@ -185,9 +185,32 @@
               <button type="button" class="btn btn-info float-right completeBtn-${response[i].id}" style="margin:.5rem">Done </button>
             </div>
             </div>
-          `;
+          `; {% endcomment %}
+
+          let habitCardDiv = document.createElement('div')
+          habitCardDiv.setAttribute('class', `card habitCard-${response[i].id}`);
+          habitListElement.appendChild(habitCardDiv)
+          let cardContent = document.createElement('div')
+          cardContent.setAttribute('class', `card-content`);
+          habitCardDiv.appendChild(cardContent)
+          let titleSpan = document.createElement('span')
+          titleSpan.textContent = `Name: ${response[i].name}`
+          cardContent.appendChild(titleSpan)
+          let description = document.createElement('p')
+          description.textContent = `Description: ${response[i].description}`
+          cardContent.appendChild(description)
+          let deleteBtn = document.createElement('button')
+          deleteBtn.setAttribute('class', `btn btn-danger float-right dltBtn-${response[i].id}`);
+          deleteBtn.textContent = 'Delete'
+          cardContent.appendChild(deleteBtn)
+          let completeBtn = document.createElement('button')
+          completeBtn.setAttribute('class', `btn btn-info float-right completeBtn-${response[i].id}`);
+          completeBtn.textContent = 'Update'
+          cardContent.appendChild(completeBtn)
+
 
           $(`.dltBtn-${response[i].id}`).on("click", (e) => {
+              {% comment %} console.log(`Added dltBtn-${response[i].id} `) {% endcomment %}
               e.preventDefault();
               e.stopPropagation();
               console.log("I'm here")
@@ -204,7 +227,7 @@
 
                 success: (res) => {
                   alert("Deleted!")
-                  console.log($(`.habitCard-${response[i].id}`))
+                  {% comment %} console.log($(`.habitCard-${response[i].id}`)) {% endcomment %}
                   $(`.habitCard-${response[i].id}`).remove();
 
 
@@ -216,7 +239,9 @@
               });
           }); 
 
+        console.log( $(`.completeBtn-${response[i].id}`))
         $(`.completeBtn-${response[i].id}`).on("click", (e) => {
+              {% comment %} console.log( $(`.completeBtn-${response[i].id}`)) {% endcomment %}
               e.preventDefault();
               e.stopPropagation();
               console.log("I'm in Update")
@@ -233,7 +258,13 @@
 
                 success: (updateRes) => {
                   alert("Updated!")
-                  console.log($(`.habitCard-${response[i].id}`))
+                  if(updateRes == "200"){
+                    alert("Done")
+                  }else{
+                    alert("Error: This has already been marked as done")
+                  }
+
+                  {% comment %} console.log($(`.habitCard-${response[i].id}`)) {% endcomment %}
 
                 },
 
