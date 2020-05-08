@@ -89,7 +89,8 @@
 }
 
 .date-picker .dates .days .day.selected {
-  background-color: rgb(255, 115, 0);
+  /* background-color: rgb(255, 115, 0); */
+  border: 2px solid red;
 }
 
 .date-picker .dates .days .day.completed {

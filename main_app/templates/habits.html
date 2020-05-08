@@ -106,8 +106,17 @@
         const day_element = document.createElement('div');
         day_element.classList.add('day');
         day_element.textContent = i + 1;
+        strDay = i+1
+        strMonth = month + 1
+        if(strDay < 10){
+          strDay = '0' + String(i+1)
+        }
+        if(strMonth < 10){
+          strMonth = '0' + String(month+1)
+        }
 
-        day_element.classList.add(`dayElement-${year}-0${month+1}-${i+1}`);
+
+        day_element.classList.add(`dayElement-${year}-${strMonth}-${strDay}`);
 
         if(selectedDay == (i + 1) && selectedYear == year && selectedMonth == month){
           day_element.classList.add('selected');
