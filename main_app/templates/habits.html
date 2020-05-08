@@ -42,6 +42,7 @@
             "August","September","October","November","December"];
     let selectedDatesArr = [];
 
+
     let date = new Date();
     let day = date.getDate();
     let month = date.getMonth();
@@ -105,6 +106,7 @@
         const day_element = document.createElement('div');
         day_element.classList.add('day');
         day_element.textContent = i + 1;
+
         day_element.classList.add(`dayElement-${year}-0${month+1}-${i+1}`);
 
         if(selectedDay == (i + 1) && selectedYear == year && selectedMonth == month){
@@ -135,6 +137,13 @@
     function checkEventPathForClass(path, selector) {
       for(let i = 0; i < path.length ; i++){
         if(path[i].classList && path[i].classList.contains(selector)){
+        console.log("IM HERE IN SELECTEDARR")
+        if(selectedDatesArr.length > 0){
+          for(let i =0; i < selectedDatesArr.length; i++){
+            console.log(selectedDatesArr)
+            $(`.dayElement-${selectedDatesArr[i]}`).addClass('completed');
+          }
+        }
           return true;
         }
       }
@@ -165,7 +174,9 @@
       let habitListElement =  document.querySelector('.habitsList');
       console.log("printing may20");
       console.log($(`.dayElement-05-20-2020`));
-      $(`.dayElement-2020-5-10`).addClass('selected');
+      console.log("SELECED DATES: ")
+      console.log(selectedDatesArr)
+      {% comment %} $(`.dayElement-2020-5-10`).addClass('selected'); {% endcomment %}
       console.log(month + '-' + day + '-' + year)
       $('.habitsList').empty();
       $.ajax({
@@ -181,8 +192,10 @@
         console.log( selected_date_element.dataset.value );
         console.log("DATES INCOMING")
         for(let i =0; i < response.completedDates.length; i++){
+          console.log("RESPONSE DATES:")
           console.log(response.completedDates[i])
           $(`.dayElement-${response.completedDates[i]}`).addClass('completed');
+          selectedDatesArr.push(response.completedDates[i]);
         }
         for(let i = 0; i < response.habits.length; i++){
           {% comment %} habitListElement.innerHTML = habitListElement.innerHTML + `
