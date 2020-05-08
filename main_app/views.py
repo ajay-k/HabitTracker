@@ -205,12 +205,12 @@ def check_complete(request, formatedDate):
     selMonth = request.GET.get('selMonth')
     selDay = request.GET.get('selDay')
     selYear = request.GET.get('selYear')
-    if(int(selMonth) < 10 ):
-      selMonth = '0' + selMonth
-    print(selMonth)
+    # if(int(selMonth) < 10 ):
+    #   selMonth = '0' + selMonth
+    # print(selMonth)
 
-    if(int(selDay) < 10 ):
-      selDay = '0' + selDay
+    # if(int(selDay) < 10 ):
+    #   selDay = '0' + selDay
     
     # formatedDate = selYear + '-' + selMonth + '-' + selDay
     user_habits = Habit.objects.filter(user_id=request.user.id).count()
@@ -246,4 +246,9 @@ def signup(request):
   form = UserCreationForm()
   context = { 'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
+
+def profile_index(request):
+  pass
+  return render(request, 'profile.html')
+
     
