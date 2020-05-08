@@ -70,6 +70,11 @@ def habits_index(request, selMonth=None, selDay=None, selYear=None):
     removedDups = list(set(allDates)) 
     completedDates = []
     print("//////////////////////")
+    # .filter(user_id=request.user.id).filter(date=formatedDate).count()
+    habitLogger_count = HabitLogger.objects.filter(user_id=request.user.id).filter(date='2020-05-14').count()
+    print(request.user.id)
+    print("PRINTING ALL OBJECTS")
+    print(habitLogger_count)
     for date in removedDups:
       print(date)
       if(check_complete(request=request, formatedDate=date)==True):
@@ -207,16 +212,19 @@ def check_complete(request, formatedDate):
     if(int(selDay) < 10 ):
       selDay = '0' + selDay
     
-    formatedDate = selYear + '-' + selMonth + '-' + selDay
+    # formatedDate = selYear + '-' + selMonth + '-' + selDay
     user_habits = Habit.objects.filter(user_id=request.user.id).count()
     print("User Habits Count:")
     print(user_habits)
 
+    print("USERID/FORMATTED DATE: ")
+    print(request.user.id)
+    print(formatedDate)
     habitLogger_count = HabitLogger.objects.filter(user_id=request.user.id).filter(date=formatedDate).count()
     print("HabitLogger Count")
     print(habitLogger_count)
 
-    if(user_habits == habitLogger_count):
+    if(user_habits <= habitLogger_count):
       print("YES! EXACT")
       return True
     return False

@@ -192,7 +192,6 @@
         console.log( selected_date_element.dataset.value );
         console.log("DATES INCOMING")
         for(let i =0; i < response.completedDates.length; i++){
-          console.log("RESPONSE DATES:")
           console.log(response.completedDates[i])
           $(`.dayElement-${response.completedDates[i]}`).addClass('completed');
           selectedDatesArr.push(response.completedDates[i]);
