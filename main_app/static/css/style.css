@@ -1,3 +1,127 @@
-body {
+ body {
+   background-color: #FFCE00;
+ }
+
+ #calendar-title{
+   display:flex;
+   justify-content: center;
+ }
   
+ .date-picker {
+   position: relative;
+   width: 100%;
+   max-width: 500px;
+   height: 60px;
+   background-color: #ffffff;
+   margin: 30px auto;
+   box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
+
+   cursor:pointer;
+   user-select: none;
+ } 
+
+ .date-picker:hover {
+   background-color: #F3F3F3;
+ }
+
+ .date-picker .selected-date{
+   width: 100%;
+   height: 100%;
+
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   color: #313131;
+   font-size: 28px;
+ }
+
+ .date-picker .dates {
+   display: block;
+   position: absolute;
+   top: 100%;
+   left: 0;
+   right: 0;
+
+   background-color: #ffffff;
+ }
+
+ .date-picker .dates.active {
+   display: none;
+ }
+
+ .date-picker .dates .month {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   border-bottom: 2px solid #eeeeee;
+ }
+
+ .date-picker .dates .month .arrows {
+   width: 35px;
+   height: 35px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: #313131;
+   font-size: 20px;
+ }
+
+ .date-picker .dates .month .arrows:hover {
+   background-color: #F3F3F3;
+ }
+
+ .date-picker .dates .month .arrows:active {
+  background-color: #00CA85;
+}
+
+.date-picker .dates .days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: 200px;
+}
+
+.date-picker .dates .days .day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #313131;
+}
+
+.date-picker .dates .days .day.selected {
+  /* background-color: rgb(255, 115, 0); */
+  border: 2px solid red;
+}
+
+.date-picker .dates .days .day.completed {
+  background-color: rgb(0, 255, 76);
+}
+
+footer {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem; 
+}
+
+.habitsList{
+  margin: 30px auto;
+}
+
+#habitTitle{
+  text-align: center;
+}
+
+.card{
+  margin: 10px;
+  padding: 10px;
+}
+
+.btn-danger{
+  margin:.5rem;
+}
+
+.btn-info{
+  margin:.5rem;
 }

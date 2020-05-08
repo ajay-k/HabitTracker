@@ -2,32 +2,331 @@
 {% block content %}
 
 <div class="row">
-  <div class="col-sm-7">
-    Calendar Placeholder
-  </div>
-  <div class="col-sm-5">
-    <h1>Habits List <a href="{% url 'habit_add' %}"><button type="button" class="btn btn-success float-right" style="margin:.5rem">Add Habit</button></a> </h1>
+  <div class="col-sm-7 calendarContainer">
+    <h1 id="calendar-title">Calendar</h1>
+    <div class="date-picker">
+      <div class="selected-date"></div>
 
-    {% for habit in habits %}
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">Name: {{ habit.name }}</span>
-          <p>Description: {{ habit.description }}</p>
-          {% if habit.good == True %}
-            <p>Good Habit</p>
-          {% else %}
-            <p>Bad Habit</p>
-          {% endif %}
-          {% if request.user == habit.user %}
-              <a href="{% url 'habit_update' habit.id%}"><button type="button" class="btn btn-info float-right" style="margin:.5rem">Update Habit</button></a>
-              <a href="{% url 'habit_delete' habit.id%}"><button type="button" class="btn btn-danger float-right" style="margin:.5rem">Delete Habit</button></a>
-          {% endif %}
+      <div class="dates">
+        <div class="month">
+          <div class="arrows prev-mth">&lt</div>
+          <div class="mth"></div>
+          <div class="arrows next-mth">&gt</div>
+        </div>
+        <div class="days">
         </div>
       </div>
-    {% endfor %}
+    </div>
+  </div> 
+
+  <div class="col-sm-5 habitsContainer">
+    <h1 id="habitTitle">Habits List <a href="{% url 'habit_add' %}"><button type="button" class="btn btn-success float-right" style="margin:.5rem">Add Habit</button></a> </h1>
+      <div class="habitsList">
+      
+      </div>
   </div>
 </div>
 
 
+<script type="text/javascript">
+	$(document).ready(function() {
+    const date_picker_element = document.querySelector('.date-picker');
+    const selected_date_element = document.querySelector('.date-picker .selected-date');
+    const dates_element = document.querySelector('.date-picker .dates');
+    const mth_element = document.querySelector('.date-picker .dates .month .mth');
+    const next_mth_element = document.querySelector('.date-picker .dates .month .next-mth');
+    const prev_mth_element = document.querySelector('.date-picker .dates .month .prev-mth');
+
+    const days_element = document.querySelector('.date-picker .dates .days')
+    const months =  ["January","February","March","April","May","June","July",
+            "August","September","October","November","December"];
+    let selectedDatesArr = [];
+
+
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    let selectedDate = date;
+    let selectedDay = day;
+    let selectedMonth = month;
+    let selectedYear = year;
+
+    mth_element.textContent = months[month] + ' ' + year;
+
+    populateDates();
+        selected_date_element.textContent = formatDate(date);
+    grabHabits(selectedMonth+1, selectedDay, selectedYear);
+    selected_date_element.dataset.value = selectedDate;
+
+
+
+    //EVENT LISTENERS
+    date_picker_element.addEventListener('click', toggleDatePicker);
+    next_mth_element.addEventListener('click', goToNextMonth);
+    prev_mth_element.addEventListener('click', goToPrevMonth);
+
+    //FUNCTIONS
+    function toggleDatePicker(e) {
+      if(!checkEventPathForClass(e.composedPath(), 'dates')){
+        dates_element.classList.toggle('active')
+      }
+    }
+
+    function goToNextMonth(e) {
+      month++;
+      if(month > 11){
+        month = 0;
+        year++;
+      }
+      mth_element.textContent = months[month] + ' ' + year;
+      populateDates();
+    }
+
+    function goToPrevMonth(e) {
+      month--;
+      if(month < 0){
+        month = 11;
+        year--;
+      }
+      mth_element.textContent = months[month] + ' ' + year;
+      populateDates();
+    }
+
+    function populateDates(e) {
+      days_element.innerHTML = '';
+      let amount_days = 31;
+
+      if(month == 1){
+        amount_days = 28;
+      }
+
+      for(let i=0; i < amount_days; i++){
+        const day_element = document.createElement('div');
+        day_element.classList.add('day');
+        day_element.textContent = i + 1;
+        strDay = i+1
+        strMonth = month + 1
+        if(strDay < 10){
+          strDay = '0' + String(i+1)
+        }
+        if(strMonth < 10){
+          strMonth = '0' + String(month+1)
+        }
+
+
+        day_element.classList.add(`dayElement-${year}-${strMonth}-${strDay}`);
+
+        if(selectedDay == (i + 1) && selectedYear == year && selectedMonth == month){
+          day_element.classList.add('selected');
+        }
+
+        day_element.addEventListener('click', function() {
+          console.log("I DATE: ", i+1)
+          console.log(month)
+          selectedDate = new Date(year, month, i+1)
+          selectedDay = (i + 1);
+          console.log("Selected Day: ", selectedDay)
+          selectedMonth = month;
+          selectedYear = year;
+          console.log(selectedDate)
+          selected_date_element.textContent = formatDate(selectedDate);
+          selected_date_element.dataset.value = selectedDate;
+          populateDates();
+          grabHabits(selectedMonth+1, selectedDay, selectedYear);
+        })
+
+        days_element.appendChild(day_element);
+      }
+    }
+    
+
+    //HELPER FUNCTIONS 
+    function checkEventPathForClass(path, selector) {
+      for(let i = 0; i < path.length ; i++){
+        if(path[i].classList && path[i].classList.contains(selector)){
+        console.log("IM HERE IN SELECTEDARR")
+        if(selectedDatesArr.length > 0){
+          for(let i =0; i < selectedDatesArr.length; i++){
+            console.log(selectedDatesArr)
+            $(`.dayElement-${selectedDatesArr[i]}`).addClass('completed');
+          }
+        }
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function formatDate(d) {
+      console.log(d.getDate())
+      let day = d.getDate();
+      if (day < 10){
+        day = '0' + day;
+      }
+
+      let month = d.getMonth() + 1;
+      if (month < 10){
+        month = '0' + month;
+      }
+
+      let year = d.getFullYear();
+
+      return month + '/' + day +  '/' + year;
+    }
+
+    function grabHabits(month, day, year) {
+      let habitUrl = '{% url "index"  %}'
+      let habitDelete = '{% url "habit_delete"  %}'
+      let habitComplete = '{% url "habit_complete"  %}'
+      let habitListElement =  document.querySelector('.habitsList');
+      console.log("printing may20");
+      console.log($(`.dayElement-05-20-2020`));
+      console.log("SELECED DATES: ")
+      console.log(selectedDatesArr)
+      {% comment %} $(`.dayElement-2020-5-10`).addClass('selected'); {% endcomment %}
+      console.log(month + '-' + day + '-' + year)
+      $('.habitsList').empty();
+      $.ajax({
+			method: "GET",
+			url: habitUrl,
+      data: {
+        'selMonth': month,
+        'selDay' : day,
+        'selYear': year,
+      },
+			success: (response) => {
+        console.log(response)
+        console.log( selected_date_element.dataset.value );
+        console.log("DATES INCOMING")
+        for(let i =0; i < response.completedDates.length; i++){
+          console.log(response.completedDates[i])
+          $(`.dayElement-${response.completedDates[i]}`).addClass('completed');
+          selectedDatesArr.push(response.completedDates[i]);
+        }
+        for(let i = 0; i < response.habits.length; i++){
+          {% comment %} habitListElement.innerHTML = habitListElement.innerHTML + `
+            <div class="card habitCard-${response.habits[i].id}" id="${response.habits[i].id}">
+            <div class="card-content">
+              <span class="card-title">Name: ${response.habits[i].name} </span>
+              <p>Description: ${response.habits[i].description}</p>
+              <button type="button" class="btn btn-danger float-right dltBtn-${response.habits[i].id}" style="margin:.5rem">Delete Habit</button>
+              <button type="button" class="btn btn-info float-right completeBtn-${response.habits[i].id}" style="margin:.5rem">Done </button>
+            </div>
+            </div>
+          `; {% endcomment %}
+
+          let habitCardDiv = document.createElement('div')
+          habitCardDiv.setAttribute('class', `card habitCard-${response.habits[i].id}`);
+          habitListElement.appendChild(habitCardDiv)
+          let cardContent = document.createElement('div')
+          cardContent.setAttribute('class', `card-content`);
+          habitCardDiv.appendChild(cardContent)
+          let titleSpan = document.createElement('span')
+          titleSpan.textContent = `Name: ${response.habits[i].name}`
+          cardContent.appendChild(titleSpan)
+          let description = document.createElement('p')
+          description.textContent = `Description: ${response.habits[i].description}`
+          cardContent.appendChild(description)
+          let deleteBtn = document.createElement('button')
+          deleteBtn.setAttribute('class', `btn btn-danger float-right dltBtn-${response.habits[i].id}`);
+          deleteBtn.textContent = 'Delete'
+          cardContent.appendChild(deleteBtn)
+          let completeBtn = document.createElement('button')
+          completeBtn.setAttribute('class', `btn btn-info float-right completeBtn-${response.habits[i].id}`);
+          completeBtn.textContent = 'Completed'
+          cardContent.appendChild(completeBtn)
+        
+
+
+          $(`.dltBtn-${response.habits[i].id}`).on("click", (e) => {
+              {% comment %} console.log(`Added dltBtn-${response.habits[i].id} `) {% endcomment %}
+              e.preventDefault();
+              e.stopPropagation();
+              console.log("I'm here")
+              $.ajax({
+                method: "GET",
+
+                url: habitDelete,
+                
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+
+                data: {
+                  'habit_id': response.habits[i].id,
+                },
+
+                success: (res) => {
+                  alert("Deleted!")
+                  {% comment %} console.log($(`.habitCard-${response.habits[i].id}`)) {% endcomment %}
+                  $(`.habitCard-${response.habits[i].id}`).remove();
+
+
+                },
+
+                error: (err) => {
+                  console.log(err);
+                },
+              });
+          }); 
+
+        console.log( $(`.completeBtn-${response.habits[i].id}`))
+        $(`.completeBtn-${response.habits[i].id}`).on("click", (e) => {
+              {% comment %} console.log( $(`.completeBtn-${response.habits[i].id}`)) {% endcomment %}
+              e.preventDefault();
+              e.stopPropagation();
+              console.log("I'm in Update")
+              $.ajax({
+                method: "GET",
+
+                url: habitComplete,
+                
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+
+                data: {
+                  'habit_id': response.habits[i].id,
+                  'selMonth': month,
+                  'selDay' : day,
+                  'selYear': year,
+                },
+
+                success: (updateRes) => {
+                  console.log("Updated:")
+                  console.log(updateRes)
+                  if(updateRes.status == "200"){
+                    alert("Updated")
+                  }else if(updateRes.status == "204"){
+                    alert("All Done")
+                    console.log(updateRes.formatedDate)
+                    selectedDatesArr.push('2020-5-5');
+                    console.log(selectedDatesArr)
+                    $(`.dayElement-${updateRes.formatedDate}`).removeClass('selected');
+                    $(`.dayElement-${updateRes.formatedDate}`).addClass('completed');
+                  }
+                  else{
+                    alert("Error: This has already been marked as done")
+                  }
+
+
+                },
+
+                error: (err) => {
+                  console.log(err);
+                },
+              });
+          }); 
+        }
+    
+        
+
+			},
+			error: (err) => {
+			console.log(err);
+			}
+			})
+    }
+
+	});
+</script>
 
 {% endblock %}
