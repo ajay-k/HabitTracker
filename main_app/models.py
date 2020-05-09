@@ -17,6 +17,7 @@ class HabitLogger(models.Model):
   habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   date = models.DateField()
+  current_total_habits = models.IntegerField(default=1)
 
   def __str__(self):
     return self.habit.name

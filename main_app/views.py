@@ -177,6 +177,7 @@ def habit_complete(request, habit_id=None):
         habit_logger.habit = habit
         habit_logger.user = request.user
         habit_logger.date = formatedDate
+        habit_logger.current_total_habits =  Habit.objects.filter(user_id=request.user.id).count()
         habit_logger.save()
         if(check_complete(request=request, formatedDate=elemDate)==True):
           return JsonResponse({"status": "204", "formatedDate": formatedDate }, safe=False)
@@ -211,6 +212,10 @@ def check_complete(request, formatedDate):
 
     # if(int(selDay) < 10 ):
     #   selDay = '0' + selDay
+    print("User Value")
+    usr_val = list(HabitLogger.objects.filter(user_id=request.user.id).filter(date=formatedDate).values_list('current_total_habits', flat=True))[0]
+    print(usr_val)
+    print(type(usr_val))
     
     # formatedDate = selYear + '-' + selMonth + '-' + selDay
     user_habits = Habit.objects.filter(user_id=request.user.id).count()
@@ -224,7 +229,7 @@ def check_complete(request, formatedDate):
     print("HabitLogger Count")
     print(habitLogger_count)
 
-    if(user_habits <= habitLogger_count):
+    if(usr_val <= habitLogger_count):
       print("YES! EXACT")
       return True
     return False
