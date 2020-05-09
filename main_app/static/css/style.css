@@ -125,3 +125,23 @@ footer {
 .btn-info{
   margin:.5rem;
 }
+
+#profileImg{
+  height: 50%;
+}
+
+.profileContainer{
+  display: flex;
+  justify-content: center;;
+  border: 2px solid red;
+  height: 150px;
+}
+
+.statInfoContainer{
+  border: 2px solid green;
+}
+
+.streakCard-content{
+  display: flex;
+  justify-content: center;
+}

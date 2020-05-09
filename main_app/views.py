@@ -248,7 +248,34 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 def profile_index(request):
-  pass
-  return render(request, 'profile.html')
+  habits = Habit.objects.all()
+  allDates = list(HabitLogger.objects.values_list('date', flat=True))
+  allDates.sort()
+  streak = 1
+  highestStreak = 1
+
+  for i in range(0, len(allDates)-1):
+    print("Day")
+    print(allDates[i].day)
+    print(allDates[i].day + 1)
+    if( (allDates[i].day + 1) == allDates[i+1].day):
+      streak += 1
+      print("Streak:")
+      print(streak)
+      if(highestStreak <= streak):
+        highestStreak = streak
+    else:
+      streak = 1
+    # print(counter)
+    # print(date[counter].day)
+    # print("DATE" + str(date.day))
+    # print("DATTE + 1" + str(date.day + 1))
+    # print(date[i].day + 1)
+    # if(date[i].day == (date[i].day+ 1)):
+    #   streak += 1
+   
+  print(highestStreak)
+
+  return render(request, 'profile.html', { 'habits': habits , 'highestStreak': highestStreak})
 
     
