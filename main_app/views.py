@@ -74,7 +74,7 @@ def habits_index(request, selMonth=None, selDay=None, selYear=None):
     habitLogger_count = HabitLogger.objects.filter(user_id=request.user.id).filter(date='2020-05-14').count()
     print(request.user.id)
     print("PRINTING ALL OBJECTS")
-    print(habitLogger_count)
+    # print(habitLogger_count)
     for date in removedDups:
       print(date)
       if(check_complete(request=request, formatedDate=date)==True):
@@ -159,7 +159,9 @@ def habit_complete(request, habit_id=None):
     if(int(selDay) < 10 ):
       selDay = '0' + selDay
     
-    
+    # habitLogger_count = HabitLogger.objects.filter(user_id=request.user.id).filter(date='2020-05-14').count()
+
+
     formatedDate = selYear + '-' + selMonth + '-' + selDay
 
     print("DATE")
