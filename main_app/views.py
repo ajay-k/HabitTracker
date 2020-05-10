@@ -74,7 +74,7 @@ def habits_index(request, selMonth=None, selDay=None, selYear=None):
     habitLogger_count = HabitLogger.objects.filter(user_id=request.user.id).filter(date='2020-05-14').count()
     print(request.user.id)
     print("PRINTING ALL OBJECTS")
-    print(habitLogger_count)
+    # print(habitLogger_count)
     for date in removedDups:
       print(date)
       if(check_complete(request=request, formatedDate=date)==True):
@@ -159,7 +159,9 @@ def habit_complete(request, habit_id=None):
     if(int(selDay) < 10 ):
       selDay = '0' + selDay
     
-    
+    # habitLogger_count = HabitLogger.objects.filter(user_id=request.user.id).filter(date='2020-05-14').count()
+
+
     formatedDate = selYear + '-' + selMonth + '-' + selDay
 
     print("DATE")
@@ -177,6 +179,7 @@ def habit_complete(request, habit_id=None):
         habit_logger.habit = habit
         habit_logger.user = request.user
         habit_logger.date = formatedDate
+        habit_logger.current_total_habits =  Habit.objects.filter(user_id=request.user.id).count()
         habit_logger.save()
         if(check_complete(request=request, formatedDate=elemDate)==True):
           return JsonResponse({"status": "204", "formatedDate": formatedDate }, safe=False)
@@ -205,12 +208,16 @@ def check_complete(request, formatedDate):
     selMonth = request.GET.get('selMonth')
     selDay = request.GET.get('selDay')
     selYear = request.GET.get('selYear')
-    if(int(selMonth) < 10 ):
-      selMonth = '0' + selMonth
-    print(selMonth)
+    # if(int(selMonth) < 10 ):
+    #   selMonth = '0' + selMonth
+    # print(selMonth)
 
-    if(int(selDay) < 10 ):
-      selDay = '0' + selDay
+    # if(int(selDay) < 10 ):
+    #   selDay = '0' + selDay
+    print("User Value")
+    usr_val = list(HabitLogger.objects.filter(user_id=request.user.id).filter(date=formatedDate).values_list('current_total_habits', flat=True))[0]
+    print(usr_val)
+    print(type(usr_val))
     
     # formatedDate = selYear + '-' + selMonth + '-' + selDay
     user_habits = Habit.objects.filter(user_id=request.user.id).count()
@@ -224,7 +231,7 @@ def check_complete(request, formatedDate):
     print("HabitLogger Count")
     print(habitLogger_count)
 
-    if(user_habits <= habitLogger_count):
+    if(usr_val <= habitLogger_count):
       print("YES! EXACT")
       return True
     return False
@@ -246,4 +253,36 @@ def signup(request):
   form = UserCreationForm()
   context = { 'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
+
+def profile_index(request):
+  habits = Habit.objects.all()
+  allDates = list(HabitLogger.objects.values_list('date', flat=True))
+  allDates.sort()
+  streak = 1
+  highestStreak = 1
+
+  for i in range(0, len(allDates)-1):
+    print("Day")
+    print(allDates[i].day)
+    print(allDates[i].day + 1)
+    if( (allDates[i].day + 1) == allDates[i+1].day):
+      streak += 1
+      print("Streak:")
+      print(streak)
+      if(highestStreak <= streak):
+        highestStreak = streak
+    else:
+      streak = 1
+    # print(counter)
+    # print(date[counter].day)
+    # print("DATE" + str(date.day))
+    # print("DATTE + 1" + str(date.day + 1))
+    # print(date[i].day + 1)
+    # if(date[i].day == (date[i].day+ 1)):
+    #   streak += 1
+   
+  print(highestStreak)
+
+  return render(request, 'profile.html', { 'habits': habits , 'highestStreak': highestStreak})
+
     

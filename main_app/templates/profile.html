@@ -1,0 +1,60 @@
+
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+<div class="row">
+  <div class="col-md-12 profileContainer">
+      <h1 id="userNameTitle">{{request.user}}</h1>
+      <img id="profileImg" src="{% static 'images/profile_image.png' %}" alt="profile_image">
+      <div class="card streakCard">
+            <div class="card-content streakCard-content">
+            <h1 id="streakNum">Highest Streak: {{highestStreak}}</h1>
+            </div>
+          </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-8 statsContainer">
+    <h1>Habits</h1>
+     {% for habit in habits %}
+          <div class="card habitCard-{{habit.id}}" id="{{habit.id}}">
+            <div class="card-content">
+              <span class="card-title">Name: {{habit.name}} </span>
+              <p>Description: {{habit.description}}</p>
+              <button type="button" class="btn btn-danger float-right dltBtn-{{habit.id}}" style="margin:.5rem">Delete Habit</button>
+            </div>
+          </div>
+    {% endfor %}
+  </div>
+  <div class="col-sm-4 habitInfoContainer">
+    <h1>Streaks</h1>
+    {% for habit in habits %}
+          <div class="card streakCard">
+            <div class="card-content streakCard-content">
+            <h1 id="streakNum">1</h1>
+            </div>
+          </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% comment %} 
+               <div class="col-md-8 habitInfoContainer">
+                  <div class="card habitCard-{{habit.id}}" id="{{habit.id}}">
+                    <div class="card-content">
+                    <span class="card-title">Name: {{habit.name}} </span>
+                    <p>Description: {{habit.description}}</p>
+                    <button type="button" class="btn btn-danger float-right dltBtn-{{habit.id}}" style="margin:.5rem">Delete Habit</button>
+                    </div>
+                    </div>
+                  </div>
+                <div>
+                <div class="col-md-4 statInfoContainer">
+                <h1>Streak</h1>
+                </div>  {% endcomment %}

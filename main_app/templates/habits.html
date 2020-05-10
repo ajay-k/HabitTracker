@@ -1,29 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="row">
-  <div class="col-sm-7 calendarContainer">
-    <h1 id="calendar-title">Calendar</h1>
-    <div class="date-picker">
-      <div class="selected-date"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-7 calendarContainer">
+      <h1 id="calendar-title">Calendar</h1>
+      <div class="date-picker">
+        <div class="selected-date"></div>
 
-      <div class="dates">
-        <div class="month">
-          <div class="arrows prev-mth">&lt</div>
-          <div class="mth"></div>
-          <div class="arrows next-mth">&gt</div>
-        </div>
-        <div class="days">
+        <div class="dates">
+          <div class="month">
+            <div class="arrows prev-mth">&lt</div>
+            <div class="mth"></div>
+            <div class="arrows next-mth">&gt</div>
+          </div>
+          <div class="days">
+          </div>
         </div>
       </div>
+    </div> 
+
+    <div class="col-md-5  habitsContainer">
+      <h1 id="habitTitle ">Habits List <a href="{% url 'habit_add' %}"> <button type="button" class="btn btn-success btn-circle float-right">&#43;</button></a> </h1>
+        <div class="habitsList">
+        
+        </div>
     </div>
-  </div> 
-
-  <div class="col-sm-5 habitsContainer">
-    <h1 id="habitTitle">Habits List <a href="{% url 'habit_add' %}"><button type="button" class="btn btn-success float-right" style="margin:.5rem">Add Habit</button></a> </h1>
-      <div class="habitsList">
-      
-      </div>
   </div>
 </div>
 
@@ -217,6 +219,23 @@
             </div>
           `; {% endcomment %}
 
+          habitListElement.innerHTML = `
+            <div class="card habitCard-${response.habits[i].id} bad" id="${response.habits[i].id}">
+            <div class="float-right"><button btn-danger data-toggle="collapse" class="close dltBtn-${response.habits[i].id}" >&times </button></div>
+              <div class="card-content">
+                  <div class="card-buttons">
+                      <button type="button" class="btn btn-success float-left completeBtn-${response.habits[i].id}" style="margin:.5rem">&#10004 </button>
+                      <button type="button" class="btn btn-info float-left updateBtn"> &#9998 </button>
+
+                  </div>
+                  <div class="card-info">
+                      <span class="card-title"><h3>${response.habits[i].name} </h3></span>
+                      <p>Description: ${response.habits[i].description}</p>
+                  </div>
+              </div>
+            </div>
+          `;
+
           let habitCardDiv = document.createElement('div')
           habitCardDiv.setAttribute('class', `card habitCard-${response.habits[i].id}`);
           habitListElement.appendChild(habitCardDiv)
@@ -238,6 +257,9 @@
           completeBtn.textContent = 'Completed'
           cardContent.appendChild(completeBtn)
         
+          $(`.updateBtn`).on("click", (e) => {
+            alert("hello")
+          })
 
 
           $(`.dltBtn-${response.habits[i].id}`).on("click", (e) => {
