@@ -9,6 +9,7 @@
   
  .date-picker {
    position: relative;
+   display: flex;
    width: 100%;
    max-width: 500px;
    height: 60px;
@@ -113,10 +114,6 @@ footer {
   text-align: center;
 }
 
-.card{
-  margin: 10px;
-  padding: 10px;
-}
 
 .btn-danger{
   margin:.5rem;
@@ -144,4 +141,79 @@ footer {
 .streakCard-content{
   display: flex;
   justify-content: center;
+}
+
+.close {
+    /* display: block; */
+    position:relative;
+    float:right;
+    color: red;
+    top:-5px;
+    /* height: 20px; */
+}
+
+.close:hover {
+  color: red;
+}
+
+.good{
+  border: 3px solid #7FFF00;
+}
+
+.bad{
+  border: 2px solid red;
+}
+
+.card{
+  display: flex;
+  padding: 10px;
+  margin: 10px;
+  /* padding: 10px; */
+}
+
+.card-buttons{
+  /* border: 3px solid purple; */
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content{
+  display: flex;
+  /* border: 3px solid green; */
+}
+
+.card-info{
+  padding-left: 3rem;
+}
+
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  border-radius: 35px;
+  font-size: 24px;
+  line-height: 1.33;
+}
+
+.btn-circle {
+  width: 60px;
+  height: 60px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 24px;
+  line-height: 1.42857;
+}
+
+.calendarContainer{
+  /* display: flex; */
+  border: 3px solid red;
+}
+
+.habitsContainer{
+  border: 3px solid green;
+  
+}
+
+.container{
 }
