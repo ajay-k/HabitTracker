@@ -1,6 +1,29 @@
 {% extends 'base.html'%}
 {% block content%}
+{% load static %}
 
-  <h1>HabitTracker Home Page</h1>
+
+  <div class="container">
+  <h1 id="home-page-title" class="main-font">Welcome to HabitTracker</h1>
+    <div class="cal-img-container">
+    <img src="{% static 'images/calendar.png' %}" width="500px"/>
+    <h3><strong>Glance at every day you've completed all your habits with a calander interface<strong></h3>
+    </div>
+ 
+    <div class="row body-content">
+      <div class="left-content col-md-6">
+        <h1 class="main-font">Why use HabitTracker?</h1>
+      <p class="main-font main-text"><strong>Learn to build postive habits such as reading and exercising while breaking bad habits such as smoking and drinking.</strong></p>
+      <p class="main-font main-text">On average, it takes more than 2 months before a new behavior becomes automatic — 66 days to be exact. </p>
+      </div>
+      <div class="right-content col-md-6">
+          <h1 class="main-font">How does HabitTracker work?</h1>
+        <p class="main-font main-text"><strong>You're able to add habits by clicking the green + button while you're on the habits page, 
+        once you add your habit when you complete the habit press the check mark next to the habit name. Once you complete all the habits for the day
+        the calendar will color that day green. You're goal is to get as many consecutive days as possible and increase you "highest streak" in 
+        your profile page</strong></p>
+      </div>
+    </div>
+  </div>
   
 {% endblock%}

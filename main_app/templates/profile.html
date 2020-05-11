@@ -6,39 +6,51 @@
 
 <div class="row">
   <div class="col-md-12 profileContainer">
-      <h1 id="userNameTitle">{{request.user}}</h1>
-      <img id="profileImg" src="{% static 'images/profile_image.png' %}" alt="profile_image">
-      <div class="card streakCard">
-            <div class="card-content streakCard-content">
-            <h1 id="streakNum">Highest Streak: {{highestStreak}}</h1>
-            </div>
-          </div>
+      <div class="userInfoContainer">
+        <h1 id="userNameTitle" class="main-font">{{request.user}}</h1>
+        <img id="profileImg" src="{% static 'images/profile_image.png' %}" alt="profile_image">
+      </div>
+      <div class="streakInfoContainer">
+        <div class="card streakCard">
+              <div class="card-content streakCard-content">
+                <h1 id="streakNum">Highest Streak: {{highestStreak}}</h1>
+              </div>
+        </div>
+      </div>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-sm-8 statsContainer">
-    <h1>Habits</h1>
+
+  <div class="col-md-12 statsContainer">
+    <div class="heading-info">
+      <h1 class="main-font">Habits</h1>
+      <h1 class="main-font"> Days</h1>
+     </div>
      {% for habit in habits %}
-          <div class="card habitCard-{{habit.id}}" id="{{habit.id}}">
-            <div class="card-content">
-              <span class="card-title">Name: {{habit.name}} </span>
-              <p>Description: {{habit.description}}</p>
-              <button type="button" class="btn btn-danger float-right dltBtn-{{habit.id}}" style="margin:.5rem">Delete Habit</button>
+      <div class="row habitTrackingInfo">
+          <div class="habitsProfileInfo">
+              <div class="card habitCard-{{habit.id}} profile-card" id="{{habit.id}}">
+                <div class="card-title">
+                  <h3 class="card-title">{{habit.name}} </h3>
+                </div>
+                <div class="card-content">
+                  <p>Goal: {{habit.goal}}</p>
+                </div>
+              </div>
+            </div>
+          <div class="streakHabitInfo">
+            <div class="card streak-card">
+              <div class="card-title">
+                <h3 class="card-title">{{habit.completed_count}} </h3>
+              </div>
+
             </div>
           </div>
+        </div>
     {% endfor %}
   </div>
-  <div class="col-sm-4 habitInfoContainer">
-    <h1>Streaks</h1>
-    {% for habit in habits %}
-          <div class="card streakCard">
-            <div class="card-content streakCard-content">
-            <h1 id="streakNum">1</h1>
-            </div>
-          </div>
-    {% endfor %}
-  </div>
+
 </div>
 
 
