@@ -48,6 +48,8 @@ I wanted to develop this project so I would have the ability to keep track of ha
 ![Habbit Page](https://user-images.githubusercontent.com/1754248/81543028-645dcd80-932a-11ea-83c3-6dc11b5cf3c0.png)
 ![Profile Page](https://user-images.githubusercontent.com/1754248/81543084-77709d80-932a-11ea-80b9-314346182c78.png)
 
+## ERD (Models)
+![ERD Model](https://user-images.githubusercontent.com/1754248/81591466-541d1100-9371-11ea-803a-ac1a3e0fc0de.png)
 
 
 ## Known Bugs / Unsolved Problems
