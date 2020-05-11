@@ -41,10 +41,14 @@ I wanted to develop this project so I would have the ability to keep track of ha
 
 
 ## Screenshots
-![GameScreenshot](https://github.com/ajay-k/hangman/blob/master/images/hangmanGame.png)
+![Habit Page Screenshot](https://user-images.githubusercontent.com/1754248/81543295-b56dc180-932a-11ea-90d8-cd19db9c009b.png)
 
 ## Wireframe (Prototype)
-![WireFrame](https://github.com/ajay-k/hangman/blob/master/images/State1.png)
+![Landing Page](https://user-images.githubusercontent.com/1754248/81542875-31b3d500-932a-11ea-9679-52eb7f210591.png)
+![Habbit Page](https://user-images.githubusercontent.com/1754248/81543028-645dcd80-932a-11ea-83c3-6dc11b5cf3c0.png)
+![Profile Page](https://user-images.githubusercontent.com/1754248/81543084-77709d80-932a-11ea-80b9-314346182c78.png)
+
+
 
 ## Known Bugs / Unsolved Problems
 * When resizing the browser window the calendar is stacked on top of the habits, this is due to my choice of using the absolute positioning for my calendar. 
