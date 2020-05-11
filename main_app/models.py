@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
-# Create your models here.
-
 class Habit(models.Model):
   name = models.CharField(max_length=100)
   goal = models.CharField(max_length=100)
