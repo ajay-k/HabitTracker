@@ -2,7 +2,7 @@
 
 {% block content %}
     <section class="form-section">
-        <h1>Add/Modify Habit</h1>
+        <h1 class="main-font">Add/Modify Habit</h1>
         <form  method="POST" class="artist-form">
             {% csrf_token %}
             {{form.as_p}}

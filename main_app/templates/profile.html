@@ -7,7 +7,7 @@
 <div class="row">
   <div class="col-md-12 profileContainer">
       <div class="userInfoContainer">
-        <h1 id="userNameTitle">{{request.user}}</h1>
+        <h1 id="userNameTitle" class="main-font">{{request.user}}</h1>
         <img id="profileImg" src="{% static 'images/profile_image.png' %}" alt="profile_image">
       </div>
       <div class="streakInfoContainer">
@@ -24,8 +24,8 @@
 
   <div class="col-md-12 statsContainer">
     <div class="heading-info">
-      <h1>Habits</h1>
-      <h1> Days</h1>
+      <h1 class="main-font">Habits</h1>
+      <h1 class="main-font"> Days</h1>
      </div>
      {% for habit in habits %}
       <div class="row habitTrackingInfo">

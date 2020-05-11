@@ -1,5 +1,5 @@
  body {
-   background-color: #FFCE00;
+   background-color: #785589;
  }
 
  #calendar-title{
@@ -122,17 +122,14 @@ footer {
 
 .habitsList{
   margin: 30px auto;
-  /* border: 3px solid purple;  */
 }
 
 #habitTitle{
   text-align: center;
-  margin: 5rem;
 }
 
 .rightTopContainer{
   display: flex;
-  /* border: 3px solid red; */
   justify-content: center;
 }
 
@@ -212,13 +209,12 @@ footer {
   text-align: center;
   font-size: 24px;
   line-height: 1.42857;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   margin-left: 2rem;
 }
 
 .calendarContainer{
   /* display: flex; */
-  /* border: 3px solid red; */
   
   margin-top: 7rem;
 }
@@ -344,6 +340,10 @@ footer {
   overflow-wrap:break-word;
 }
 
+.main-font{
+  color: white;
+}
+
 .cal-img-container{
   display: flex;
   flex-direction: column;
@@ -352,4 +352,8 @@ footer {
 
 #home-page-title{
   text-align: center;
+}
+
+.main-text{
+  font-size: 20px;
 }

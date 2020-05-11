@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-7 calendarContainer">
-      <h1 id="calendar-title">Calendar</h1>
+      <h1 id="calendar-title" class="main-font">Calendar</h1>
       <div class="date-picker">
         <div class="selected-date"></div>
 
@@ -22,7 +22,7 @@
 
     <div class="col-md-5  habitsContainer">
       <div class="rightTopContainer">
-        <h1 id="habitTitle ">Habits List</h1>
+        <h1 id="habitTitle" class="main-font">Habits List</h1>
          <a href="{% url 'habit_add' %}"> <button type="button" class="btn btn-success btn-circle float-right">&#43;</button></a>
       </div>
         <div class="habitsList">
@@ -30,11 +30,36 @@
         </div>
     </div>
   </div>
+
+          <div class="alert alert-success fixed-bottom" id="success-alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Success</strong>
+        </div>
+
+        <div class="alert alert-danger fixed-bottom" id="danger-alert">
+              <button type="button" class="close" data-dismiss="alert">x</button>
+              <strong>Deleted</strong>
+        </div>
 </div>
 
 
 <script type="text/javascript">
 	$(document).ready(function() {
+    $("#success-alert").hide();
+    $("#danger-alert").hide();
+
+  function showSuccessAlert() {
+  $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+                  $("#success-alert").slideUp(500);
+                });
+  }
+
+  function showDangerAlert() {
+  $("#danger-alert").fadeTo(2000, 500).slideUp(500, function() {
+                  $("#danger-alert").slideUp(500);
+                });
+  }
+
     const date_picker_element = document.querySelector('.date-picker');
     const selected_date_element = document.querySelector('.date-picker .selected-date');
     const dates_element = document.querySelector('.date-picker .dates');
@@ -211,34 +236,7 @@
           selectedDatesArr.push(response.completedDates[i]);
         }
         for(let i = 0; i < response.habits.length; i++){
-          {% comment %} habitListElement.innerHTML = habitListElement.innerHTML + `
-            <div class="card habitCard-${response.habits[i].id}" id="${response.habits[i].id}">
-            <div class="card-content">
-              <span class="card-title">Name: ${response.habits[i].name} </span>
-              <p>Description: ${response.habits[i].description}</p>
-              <button type="button" class="btn btn-danger float-right dltBtn-${response.habits[i].id}" style="margin:.5rem">Delete Habit</button>
-              <button type="button" class="btn btn-info float-right completeBtn-${response.habits[i].id}" style="margin:.5rem">Done </button>
-            </div>
-            </div>
-          `; {% endcomment %}
-
-{% comment %} 
-          habitListElement.innerHTML = `
-            <div class="card habitCard-${response.habits[i].id} bad" id="${response.habits[i].id}">
-            <div class="updateDiv"><button btn-danger data-toggle="collapse" class="close dltBtn-${response.habits[i].id}" >&times </button></div>
-              <div class="card-content">
-                  <div class="card-buttons">
-                      <button type="button" class="btn btn-success float-left completeBtn-${response.habits[i].id}" style="margin:.5rem">&#10004 </button>
-                      <a href="update/${response.habits[i].id}"><button type="button" class="btn btn-info float-left updateBtn"> &#9998 </button></a>
-
-                  </div>
-                  <div class="card-info">
-                      <span class="card-title"><h3>${response.habits[i].name} </h3></span>
-                      <p>Description: ${response.habits[i].description}</p>
-                  </div>
-              </div>
-            </div>
-          `;  {% endcomment %}
+          
 
             let habitItem = document.createElement('div')
             if(response.habits[i].isGood == true){
@@ -279,66 +277,6 @@
             }
             habitListElement.appendChild(habitItem)
 
-  
-{% comment %} 
-          let habitCardDiv = document.createElement('div')
-          habitCardDiv.setAttribute('class', `card habitCard-${response.habits[i].id}`);
-          habitListElement.appendChild(habitCardDiv)
-          let updateDiv = document.createElement('div')
-          updateDiv.setAttribute('class', `updateDiv`);
-          habitCardDiv.appendChild(updateDiv)
-          let dltBtn = document.createElement('button')
-          dltBtn.setAttribute('class', `close dltBtn-${response.habits[i].id}`);
-          dltBtn.innerHTML = '&times'
-          updateDiv.appendChild(dltBtn)
-          let cardContent = document.createElement('div')
-          cardContent.setAttribute('class', `card-content`);
-          habitCardDiv.appendChild(cardContent);
-          let cardBtns = document.createElement('div');
-          cardBtns.setAttribute('class', `card-buttons`);
-          cardContent.appendChild(cardBtns);
-          let completeBtn = document.createElement('buttons');
-          completeBtn.setAttribute('class', `btn btn-success float-left completeBtn-${response.habits[i].id}`);
-          completeBtn.setAttribute('type', 'button');
-          completeBtn.innerHTML = '&#10004'
-          cardBtns.appendChild(completeBtn)
-          let updateBtn = document.createElement('buttons')
-          updateBtn.setAttribute('class', `btn btn-info float-left updateBtn-${response.habits[i].id}`);
-          updateBtn.setAttribute('type', 'button');
-          updateBtn.innerHTML = '&#9998'
-          cardBtns.appendChild(updateBtn)
-          let cardInfoDiv = document.createElement('div')
-          cardInfoDiv.setAttribute('class', `card-info`);
-          cardContent.appendChild(cardInfoDiv);
-
-          let habitTitle = document.createElement('h3')
-          habitTitle.textContent = `${response.habits[i].name}`
-          cardInfoDiv.appendChild(habitTitle)
-
-          let description = document.createElement('p')
-          description.textContent = `Description: ${response.habits[i].description}`
-          cardInfoDiv.appendChild(description) {% endcomment %}
-
-
-          {% comment %} let titleSpan = document.createElement('span')
-          titleSpan.textContent = `Name: ${response.habits[i].name}`
-          cardContent.appendChild(titleSpan)
-          let description = document.createElement('p')
-          description.textContent = `Description: ${response.habits[i].description}`
-          cardContent.appendChild(description)
-          let deleteBtn = document.createElement('button')
-          deleteBtn.setAttribute('class', `btn btn-danger float-right dltBtn-${response.habits[i].id}`);
-          deleteBtn.textContent = 'Delete'
-          cardContent.appendChild(deleteBtn)
-          let completeBtn = document.createElement('button')
-          completeBtn.setAttribute('class', `btn btn-info float-right completeBtn-${response.habits[i].id}`);
-          completeBtn.textContent = 'Completed'
-          cardContent.appendChild(completeBtn) {% endcomment %}
-        
-          {% comment %} $(`.updateBtn`).on("click", (e) => {
-            alert("hello")
-          }) {% endcomment %}
-
 
           $(`.dltBtn-${response.habits[i].id}`).on("click", (e) => {
               {% comment %} console.log(`Added dltBtn-${response.habits[i].id} `) {% endcomment %}
@@ -357,7 +295,7 @@
                 },
 
                 success: (res) => {
-                  alert("Deleted!")
+                   showDangerAlert();
                   {% comment %} console.log($(`.habitCard-${response.habits[i].id}`)) {% endcomment %}
                   $(`.habitCard-${response.habits[i].id}`).remove();
 
@@ -394,9 +332,9 @@
                   console.log("Updated:")
                   console.log(updateRes)
                   if(updateRes.status == "200"){
-                    alert("Updated")
+                    showSuccessAlert();
                   }else if(updateRes.status == "204"){
-                    alert("All Done")
+                    showSuccessAlert();
                     console.log(updateRes.formatedDate)
                     selectedDatesArr.push('2020-5-5');
                     console.log(selectedDatesArr)
