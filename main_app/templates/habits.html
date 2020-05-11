@@ -316,7 +316,7 @@
                   else{
                     alert("Error: This has already been marked as done")
                   }
-
+                  $(`.completeBtn-${response.habits[i].id}`).attr("disabled", true);
                 },
 
                 error: (err) => {
