@@ -305,3 +305,19 @@ footer {
   justify-content: center;
   color: white;
 }
+
+form-section{
+  border: 2px solid white;
+}
+
+.signup-btn{
+  display: flex;
+  border: 2px solid white;
+  margin: 0 auto;
+}
+
+.login-btn{
+  display: flex;
+  border: 2px solid white;
+  margin: 0 auto;
+}

@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<section class="form-section">
+
 <h1 class="main-font">Log In</h1>
 <form method="post" action="{% url 'login' %}">
   {% csrf_token  %}
   {{ form.as_p }}
-  <input type="submit" class="btn" value="login">
+  <input class="btn btn-success login-btn" type="submit" class="btn" value="login">
   <input type="hidden" name="next" value="{{ next }}">
 </form>
+</section>
 
 {% endblock %}
 
