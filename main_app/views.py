@@ -32,11 +32,9 @@ def habits_index(request, selMonth=None, selDay=None, selYear=None):
     all_dates_removed_dups = list(set(allDates)) 
     completedDates = []
     for date in all_dates_removed_dups:
-      print(date)
       if(check_complete(request=request, formatedDate=date)==True):
         completedDates.append(date)
-    print("COMPLETED DATES ARRAY: ")
-    print(completedDates)
+
     return JsonResponse({"habits": habits, "completedDates": completedDates}, safe=False)  # or JsonResponse({'data': data})
 
   else:
