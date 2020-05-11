@@ -9,10 +9,10 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
+#Date imports
 from datetime import datetime
 from datetime import date
 from django.http import JsonResponse
-
 
 
 #Home view

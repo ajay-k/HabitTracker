@@ -45,21 +45,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-    $("#success-alert").hide();
-    $("#danger-alert").hide();
-
-  function showSuccessAlert() {
-  $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
-                  $("#success-alert").slideUp(500);
-                });
-  }
-
-  function showDangerAlert() {
-  $("#danger-alert").fadeTo(2000, 500).slideUp(500, function() {
-                  $("#danger-alert").slideUp(500);
-                });
-  }
-
     const date_picker_element = document.querySelector('.date-picker');
     const selected_date_element = document.querySelector('.date-picker .selected-date');
     const dates_element = document.querySelector('.date-picker .dates');
@@ -86,7 +71,7 @@
     mth_element.textContent = months[month] + ' ' + year;
 
     populateDates();
-        selected_date_element.textContent = formatDate(date);
+    selected_date_element.textContent = formatDate(date);
     grabHabits(selectedMonth+1, selectedDay, selectedYear);
     selected_date_element.dataset.value = selectedDate;
 
@@ -153,14 +138,10 @@
         }
 
         day_element.addEventListener('click', function() {
-          console.log("I DATE: ", i+1)
-          console.log(month)
           selectedDate = new Date(year, month, i+1)
           selectedDay = (i + 1);
-          console.log("Selected Day: ", selectedDay)
           selectedMonth = month;
           selectedYear = year;
-          console.log(selectedDate)
           selected_date_element.textContent = formatDate(selectedDate);
           selected_date_element.dataset.value = selectedDate;
           populateDates();
@@ -176,10 +157,8 @@
     function checkEventPathForClass(path, selector) {
       for(let i = 0; i < path.length ; i++){
         if(path[i].classList && path[i].classList.contains(selector)){
-        console.log("IM HERE IN SELECTEDARR")
         if(selectedDatesArr.length > 0){
           for(let i =0; i < selectedDatesArr.length; i++){
-            console.log(selectedDatesArr)
             $(`.dayElement-${selectedDatesArr[i]}`).addClass('completed');
           }
         }
@@ -189,8 +168,22 @@
       return false;
     }
 
+    $("#success-alert").hide();
+    $("#danger-alert").hide();
+
+    function showSuccessAlert() {
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+        $("#success-alert").slideUp(500);
+      });
+    }
+
+    function showDangerAlert() {
+        $("#danger-alert").fadeTo(2000, 500).slideUp(500, function() {
+        $("#danger-alert").slideUp(500);
+      });
+    }
+
     function formatDate(d) {
-      console.log(d.getDate())
       let day = d.getDate();
       if (day < 10){
         day = '0' + day;
@@ -211,12 +204,7 @@
       let habitDelete = '{% url "habit_delete"  %}'
       let habitComplete = '{% url "habit_complete"  %}'
       let habitListElement =  document.querySelector('.habitsList');
-      console.log("printing may20");
-      console.log($(`.dayElement-05-20-2020`));
-      console.log("SELECED DATES: ")
-      console.log(selectedDatesArr)
-      {% comment %} $(`.dayElement-2020-5-10`).addClass('selected'); {% endcomment %}
-      console.log(month + '-' + day + '-' + year)
+       
       $('.habitsList').empty();
       $.ajax({
 			method: "GET",
@@ -227,17 +215,11 @@
         'selYear': year,
       },
 			success: (response) => {
-        console.log(response)
-        console.log( selected_date_element.dataset.value );
-        console.log("DATES INCOMING")
         for(let i =0; i < response.completedDates.length; i++){
-          console.log(response.completedDates[i])
           $(`.dayElement-${response.completedDates[i]}`).addClass('completed');
           selectedDatesArr.push(response.completedDates[i]);
         }
         for(let i = 0; i < response.habits.length; i++){
-          
-
             let habitItem = document.createElement('div')
             if(response.habits[i].isGood == true){
             habitItem.innerHTML = `
@@ -251,7 +233,7 @@
                   </div>
                   <div class="card-info">
                       <span class="card-title"><h3>${response.habits[i].name} </h3></span>
-                      <p>Description: ${response.habits[i].goal}</p>
+                      <p>Goal: ${response.habits[i].goal}</p>
                   </div>
               </div>
             </div>
@@ -282,7 +264,6 @@
               {% comment %} console.log(`Added dltBtn-${response.habits[i].id} `) {% endcomment %}
               e.preventDefault();
               e.stopPropagation();
-              console.log("I'm here")
               $.ajax({
                 method: "GET",
 
@@ -296,7 +277,6 @@
 
                 success: (res) => {
                    showDangerAlert();
-                  {% comment %} console.log($(`.habitCard-${response.habits[i].id}`)) {% endcomment %}
                   $(`.habitCard-${response.habits[i].id}`).remove();
 
 
@@ -308,12 +288,9 @@
               });
           }); 
 
-        console.log( $(`.completeBtn-${response.habits[i].id}`))
         $(`.completeBtn-${response.habits[i].id}`).on("click", (e) => {
-              {% comment %} console.log( $(`.completeBtn-${response.habits[i].id}`)) {% endcomment %}
               e.preventDefault();
               e.stopPropagation();
-              console.log("I'm in Update")
               $.ajax({
                 method: "GET",
 
@@ -329,22 +306,16 @@
                 },
 
                 success: (updateRes) => {
-                  console.log("Updated:")
-                  console.log(updateRes)
                   if(updateRes.status == "200"){
                     showSuccessAlert();
                   }else if(updateRes.status == "204"){
                     showSuccessAlert();
-                    console.log(updateRes.formatedDate)
-                    selectedDatesArr.push('2020-5-5');
-                    console.log(selectedDatesArr)
                     $(`.dayElement-${updateRes.formatedDate}`).removeClass('selected');
                     $(`.dayElement-${updateRes.formatedDate}`).addClass('completed');
                   }
                   else{
                     alert("Error: This has already been marked as done")
                   }
-
 
                 },
 

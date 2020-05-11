@@ -43,7 +43,6 @@
    top: 100%;
    left: 0;
    right: 0;
-  /* border: 3px green solid; */
    background-color: #ffffff;
  }
 
@@ -90,34 +89,11 @@
 }
 
 .date-picker .dates .days .day.selected {
-  /* background-color: rgb(255, 115, 0); */
   border: 2px solid red;
 }
 
 .date-picker .dates .days .day.completed {
   background-color: rgb(0, 255, 76);
-}
-
-footer {
-  display: flex;
-  position: absolute;
-  text-align: center;
-  bottom: 0;
-  width: 100%;
-  height: 2.5rem;
-  justify-content: center;
-  /* flex-shrink: 0;
-  justify-content: center;
-
-  /* position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: red;
-  color: white;
-  text-align: center; */
-
-  
 }
 
 .habitsList{
@@ -149,12 +125,10 @@ footer {
   height: 50%;
 }
 .close {
-    /* display: block; */
     position:relative;
     float:right;
     color: red;
     top:-5px;
-    /* height: 20px; */
 }
 
 .close:hover {
@@ -174,18 +148,15 @@ footer {
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
-  /* padding: 10px; */
 }
 
 .card-buttons{
-  /* border: 3px solid purple; */
   display: flex;
   flex-direction: column;
 }
 
 .card-content{
   display: flex;
-  /* border: 3px solid green; */
 }
 
 .card-info{
@@ -214,41 +185,22 @@ footer {
 }
 
 .calendarContainer{
-  /* display: flex; */
-  
   margin-top: 7rem;
 }
 
 .habitsContainer{
-  /* border: 3px solid green; */
   margin-top: 7rem;
 
 }
 
-.container{
-}
-
-.updateDiv{
-  float: right;
-}
-
-
-
 .profileContainer{
   display: flex;
-  /* justify-content: center;; */
   height: 350px;
 }
-
-/* .statInfoContainer{
-  height: 250px;
-
-} */
 
 .streakCard-content{
   display: flex;
   justify-content: center;
-  /* border: 2px solid green; */
 
 }
 
@@ -270,8 +222,6 @@ footer {
   align-items: center;
 }
 
-.habitNStreaks{
-}
 
 .statsContainer{
   display: flex;
@@ -285,10 +235,6 @@ footer {
   width: 350px;
 }
 
-.habitsProfileInfo{
-  /* border: 3px red solid; */
-}
-
 .streak-card{
   display: flex;
   flex-direction: column;
@@ -299,10 +245,6 @@ footer {
 
 .streakHabitInfo{
   display: flex;
-}
-
-.habitTrackingInfo{
-  /* border: 5px solid limegreen; */
 }
 
 .heading-info{
@@ -324,17 +266,12 @@ footer {
   align-items: center;
 }
 
-
 .body-content{
   display: flex;
-  /* border: solid green 3px; */
   justify-content: space-around;
   margin: 5px;
 }
-}
 
-.left-content{
-}
 
 .right-content{
   overflow-wrap:break-word;
@@ -356,4 +293,15 @@ footer {
 
 .main-text{
   font-size: 20px;
+}
+
+footer {
+  display: flex;
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+  justify-content: center;
+  color: white;
 }
