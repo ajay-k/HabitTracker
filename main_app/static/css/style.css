@@ -43,7 +43,7 @@
    top: 100%;
    left: 0;
    right: 0;
-  border: 3px green solid;
+  /* border: 3px green solid; */
    background-color: #ffffff;
  }
 
@@ -104,7 +104,8 @@ footer {
   text-align: center;
   bottom: 0;
   width: 100%;
-  height: 2.5rem;  */
+  height: 2.5rem;
+  justify-content: center;
   /* flex-shrink: 0;
   justify-content: center;
 
@@ -195,8 +196,8 @@ footer {
 }
 
 .btn-circle.btn-xl {
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   padding: 10px 16px;
   border-radius: 35px;
   font-size: 24px;
@@ -204,24 +205,28 @@ footer {
 }
 
 .btn-circle {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   padding: 6px 0px;
-  border-radius: 15px;
+  border-radius: 25px;
   text-align: center;
   font-size: 24px;
   line-height: 1.42857;
+  margin-top: 1.5rem;
+  margin-left: 2rem;
 }
 
 .calendarContainer{
   /* display: flex; */
-  border: 3px solid red;
+  /* border: 3px solid red; */
   
+  margin-top: 7rem;
 }
 
 .habitsContainer{
-  border: 3px solid green;
-  
+  /* border: 3px solid green; */
+  margin-top: 7rem;
+
 }
 
 .container{
@@ -308,4 +313,43 @@ footer {
   display: flex;
   width: 450px;
   justify-content: space-between;
+}
+
+.form-section{
+  display: flex;
+  flex-direction: column;
+  margin-top: 15rem;
+  align-items: center;
+}
+
+.artist-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.body-content{
+  display: flex;
+  /* border: solid green 3px; */
+  justify-content: space-around;
+  margin: 5px;
+}
+}
+
+.left-content{
+}
+
+.right-content{
+  overflow-wrap:break-word;
+}
+
+.cal-img-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#home-page-title{
+  text-align: center;
 }
