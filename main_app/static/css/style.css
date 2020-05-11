@@ -99,11 +99,24 @@
 }
 
 footer {
+  display: flex;
   position: absolute;
   text-align: center;
   bottom: 0;
   width: 100%;
-  height: 2.5rem; 
+  height: 2.5rem;  */
+  /* flex-shrink: 0;
+  justify-content: center;
+
+  /* position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
+  text-align: center; */
+
+  
 }
 
 .habitsList{
@@ -137,23 +150,6 @@ footer {
 #profileImg{
   height: 50%;
 }
-
-.profileContainer{
-  display: flex;
-  justify-content: center;;
-  border: 2px solid red;
-  height: 150px;
-}
-
-.statInfoContainer{
-  border: 2px solid green;
-}
-
-.streakCard-content{
-  display: flex;
-  justify-content: center;
-}
-
 .close {
     /* display: block; */
     position:relative;
@@ -233,4 +229,83 @@ footer {
 
 .updateDiv{
   float: right;
+}
+
+
+
+.profileContainer{
+  display: flex;
+  /* justify-content: center;; */
+  height: 350px;
+}
+
+/* .statInfoContainer{
+  height: 250px;
+
+} */
+
+.streakCard-content{
+  display: flex;
+  justify-content: center;
+  /* border: 2px solid green; */
+
+}
+
+.streakCard{
+  display: flex;
+  height: 120px;
+}
+
+.userInfoContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.streakInfoContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.habitNStreaks{
+}
+
+.statsContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} 
+
+.profile-card{
+  display: flex;
+  align-items: center;
+  width: 350px;
+}
+
+.habitsProfileInfo{
+  /* border: 3px red solid; */
+}
+
+.streak-card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+}
+
+.streakHabitInfo{
+  display: flex;
+}
+
+.habitTrackingInfo{
+  /* border: 5px solid limegreen; */
+}
+
+.heading-info{
+  display: flex;
+  width: 450px;
+  justify-content: space-between;
 }

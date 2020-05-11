@@ -180,6 +180,8 @@ def habit_complete(request, habit_id=None):
         habit_logger.user = request.user
         habit_logger.date = formatedDate
         habit_logger.current_total_habits =  Habit.objects.filter(user_id=request.user.id).count()
+        habit.completed_count += 1
+        habit.save()
         habit_logger.save()
         if(check_complete(request=request, formatedDate=elemDate)==True):
           return JsonResponse({"status": "204", "formatedDate": formatedDate }, safe=False)
@@ -273,6 +275,24 @@ def profile_index(request):
         highestStreak = streak
     else:
       streak = 1
+
+    habitCount = HabitLogger.objects.filter(habit_id=66).count()
+    print("HABIT COUNT")
+    print(habitCount)
+    print(list(habits))
+    habit_counter = {}
+    # for habit in habits:
+    #   habit_counter.append({habit.id : HabitLogger.objects.filter(habit_id=habit.id).count()})
+    #   habit_counter[habit.id] = HabitLogger.objects.filter(habit_id=habit.id).count()
+
+    print(habit_counter)
+
+    if 66 in habit_counter:
+      print("HELLO")
+    else:
+      print("Nah")
+
+    print(type(habit_counter))
     # print(counter)
     # print(date[counter].day)
     # print("DATE" + str(date.day))
@@ -283,6 +303,6 @@ def profile_index(request):
    
   print(highestStreak)
 
-  return render(request, 'profile.html', { 'habits': habits , 'highestStreak': highestStreak})
+  return render(request, 'profile.html', { 'habits': habits , 'highestStreak': highestStreak, 'habit_counter': habit_counter})
 
     

@@ -6,8 +6,10 @@ from datetime import datetime
 
 class Habit(models.Model):
   name = models.CharField(max_length=100)
-  description = models.CharField(max_length=100)
+  goal = models.CharField(max_length=100)
+  completed_count = models.IntegerField(default=0)
   isGood = models.BooleanField()
+
   user = models.ForeignKey(User, on_delete=models.CASCADE)
 
   def __str__(self):

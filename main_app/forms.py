@@ -7,7 +7,7 @@ class HabitForm(forms.ModelForm):
 		# the fields that make up the form
     class Meta:
         model = Habit
-        fields = ('name', 'description', 'isGood')
+        fields = ('name', 'goal', 'isGood')
 
 # class HabitLoggerForm(forms.ModelForm):
 # 		# The Meta class is where we connect to a model and define
