@@ -6,7 +6,7 @@
 <h1 class="main-font">Sign up</h1>
 {% if error_message %}<p class="red-text">{{ error_message }}</p>{% endif %}
 
-<form cmethod="post" action="{% url 'signup' %}">
+<form method="post" action="{% url 'signup' %}">
   {% csrf_token  %}
   {{ form.as_p }}
   <input class="btn btn-success signup-btn" type="submit" class="btn" value="Sign Up">

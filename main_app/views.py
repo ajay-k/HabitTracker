@@ -28,9 +28,12 @@ def habits_index(request, selMonth=None, selDay=None, selYear=None):
     habits = Habit.objects.all()
     habits = list(Habit.objects.filter(user_id=request.user).values())
 
-    allDates = HabitLogger.objects.values_list('date', flat=True)
+    # allDates = HabitLogger.objects.values_list('date', flat=True)
+    allDates = HabitLogger.objects.filter(user_id=request.user.id).values_list('date', flat=True)
     all_dates_removed_dups = list(set(allDates)) 
     completedDates = []
+    print("all dates")
+    print(all_dates_removed_dups)
     for date in all_dates_removed_dups:
       if(check_complete(request=request, formatedDate=date)==True):
         completedDates.append(date)
@@ -121,6 +124,11 @@ def check_complete(request, formatedDate):
     selDay = request.GET.get('selDay')
     selYear = request.GET.get('selYear')
 
+    print("Printing all objects")
+    print(HabitLogger.objects.filter(user_id=request.user.id).filter(date=formatedDate).values_list('current_total_habits', flat=True))
+
+    print("User ID: ")
+    print(request.user.id)
     usr_val = list(HabitLogger.objects.filter(user_id=request.user.id).filter(date=formatedDate).values_list('current_total_habits', flat=True))[0]
 
     user_habits = Habit.objects.filter(user_id=request.user.id).count()
@@ -162,4 +170,3 @@ def signup(request):
   form = UserCreationForm()
   context = { 'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
-
