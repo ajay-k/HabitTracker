@@ -19,6 +19,8 @@
 
    cursor:pointer;
    user-select: none;
+
+   
  } 
 
  .date-picker:hover {
@@ -26,25 +28,43 @@
  }
 
  .date-picker .selected-date{
-   width: 100%;
-   height: 100%;
+  width: 100%;
+  height: 100%;
 
-   display: flex;
-   justify-content: center;
-   align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-   color: #313131;
-   font-size: 28px;
+  color: #313131;
+  font-size: 28px;
  }
 
  .date-picker .dates {
-   display: block;
+   display: block; 
+   /* position: absolute; */
+   /* position: relative;
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+   height: 60px;
+   background-color: #ffffff; */
+
    position: absolute;
    top: 100%;
    left: 0;
    right: 0;
    background-color: #ffffff;
+   /* clear: both; */
+   /* float: left; */
  }
+
+ @media (max-width: 768px) {
+  .rightTopContainer {
+
+    margin-top: 200px;
+
+  }
+} 
 
  .date-picker .dates.active {
    display: none;
@@ -186,6 +206,9 @@
 
 .calendarContainer{
   margin-top: 7rem;
+  position: relative;
+  /* overflow: hidden; */
+  /* overflow:auto  */
 }
 
 .habitsContainer{
