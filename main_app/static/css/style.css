@@ -59,11 +59,12 @@
  }
 
  @media (max-width: 768px) {
-  .rightTopContainer {
+  .calendarContainer {
 
-    margin-top: 200px;
-
+    margin-bottom: 200px;
+  
   }
+
 } 
 
  .date-picker .dates.active {
